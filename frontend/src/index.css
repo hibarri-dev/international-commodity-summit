@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-brand-blue: #1863dc;
+  --color-brand-purple: #7a2fd6;
+  --color-brand-pink: #e01377;
+  
+  --color-bg-dark: #0b0d18;
+  --color-card-dark: #121526;
+  --color-card-border: #1f253d;
+
+  --font-spartan: 'League Spartan', sans-serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --gradient-brand: linear-gradient(135deg, #1863dc 0%, #7a2fd6 50%, #e01377 100%);
+  --gradient-brand-subtle: linear-gradient(135deg, rgba(24, 99, 220, 0.15) 0%, rgba(122, 47, 214, 0.15) 50%, rgba(224, 19, 119, 0.15) 100%);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-dark);
+  color: #f1f3f9;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-spartan);
+  letter-spacing: -0.02em;
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: rgba(18, 21, 38, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel:hover {
+  border-color: rgba(122, 47, 214, 0.4);
+}
+
+.gradient-text {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-border-card {
+  position: relative;
+  background: #121526;
+  border-radius: 1rem;
+}
+
+.gradient-border-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 1rem;
+  padding: 1px;
+  background: var(--gradient-brand);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Article body — shared by the public post page and the admin editor so what you write is what readers see */
+.article-body {
+  --tw-prose-invert-body: #cbd5e1;
+  --tw-prose-invert-headings: #ffffff;
+  --tw-prose-invert-links: #4d8ff0;
+  --tw-prose-invert-bold: #ffffff;
+  --tw-prose-invert-quotes: #e2e8f0;
+  --tw-prose-invert-quote-borders: #e01377;
+  --tw-prose-invert-bullets: #7a2fd6;
+  --tw-prose-invert-counters: #7a2fd6;
+  --tw-prose-invert-hr: rgba(255, 255, 255, 0.1);
+  --tw-prose-invert-code: #f9a8d4;
+  --tw-prose-invert-pre-bg: #0b0d18;
+}
+
+.article-body a {
+  text-underline-offset: 3px;
+}
+
+.article-body a:hover {
+  color: #ffffff;
+}
+
+.article-body img {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  max-width: 100%;
+  height: auto;
+}
+
+.article-body blockquote {
+  font-style: normal;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 0.25rem 1.25rem;
+}
+
+/* TipTap editor */
+.tiptap:focus {
+  outline: none;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: #64748b;
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.tiptap img.ProseMirror-selectednode {
+  outline: 3px solid #7a2fd6;
+  outline-offset: 2px;
+}
