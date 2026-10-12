@@ -161,15 +161,15 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#090a12] text-slate-100 p-6 sm:p-10">
+    <div className="min-h-screen bg-[#090a12] text-slate-100 p-4 sm:p-10">
       <div className="max-w-7xl mx-auto">
         {/* Top Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-8 mb-8 border-b border-white/10 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 sm:pb-8 mb-6 sm:mb-8 border-b border-white/10 gap-4">
           <div>
             <span className="text-xs font-bold uppercase tracking-widest text-[#7a2fd6]">Superadmin Control</span>
-            <h1 className="font-heading font-black text-3xl text-white">Summit Console</h1>
+            <h1 className="font-heading font-black text-2xl sm:text-3xl text-white">Summit Console</h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <button
               onClick={() => setActiveTab('traffic')}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
@@ -311,19 +311,19 @@ export default function AdminDashboard() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-5">
                 <h3 className="font-heading font-bold text-lg text-white">Articles ({posts.length})</h3>
                 <div className="flex items-center gap-3">
-                  <div className="relative">
+                  <div className="relative flex-1 sm:flex-none">
                     <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
                     <input
                       type="search"
                       placeholder="Search title, slug, category"
                       value={postSearch}
                       onChange={(e) => setPostSearch(e.target.value)}
-                      className="w-64 pl-9 pr-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#7a2fd6]"
+                      className="w-full sm:w-64 pl-9 pr-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#7a2fd6]"
                     />
                   </div>
                   <button
                     onClick={() => setEditingPost(null)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl font-heading font-bold text-sm text-white bg-gradient-to-r from-[#1863dc] to-[#e01377] hover:opacity-90"
+                    className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl font-heading font-bold text-sm text-white bg-gradient-to-r from-[#1863dc] to-[#e01377] hover:opacity-90"
                   >
                     <Plus className="w-4 h-4" /> New post
                   </button>
@@ -342,9 +342,9 @@ export default function AdminDashboard() {
                     className="p-3 rounded-xl bg-white/5 border border-white/5 hover:border-white/15 flex items-center gap-4"
                   >
                     {p.featuredImageUrl ? (
-                      <img src={p.featuredImageUrl} alt="" className="w-20 h-12 object-cover rounded-lg shrink-0" />
+                      <img src={p.featuredImageUrl} alt="" className="hidden sm:block w-20 h-12 object-cover rounded-lg shrink-0" />
                     ) : (
-                      <div className="w-20 h-12 rounded-lg bg-white/5 flex items-center justify-center shrink-0">
+                      <div className="hidden sm:flex w-20 h-12 rounded-lg bg-white/5 items-center justify-center shrink-0">
                         <ImageOff className="w-4 h-4 text-slate-600" />
                       </div>
                     )}

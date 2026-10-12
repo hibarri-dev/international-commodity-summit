@@ -19,11 +19,30 @@
   --gradient-brand-subtle: linear-gradient(135deg, rgba(24, 99, 220, 0.15) 0%, rgba(122, 47, 214, 0.15) 50%, rgba(224, 19, 119, 0.15) 100%);
 }
 
+html {
+  /* In-page anchors (#tickets etc.) land below the sticky header instead of under it */
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (min-width: 640px) {
+  html {
+    scroll-padding-top: 6rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--color-bg-dark);
   color: #f1f3f9;
-  overflow-x: hidden;
+  /* clip (not hidden) so the sticky header keeps working */
+  overflow-x: clip;
 }
 
 h1, h2, h3, h4, h5, h6, .font-heading {
@@ -83,8 +102,65 @@ h1, h2, h3, h4, h5, h6, .font-heading {
   --tw-prose-invert-pre-bg: #0b0d18;
 }
 
+.article-body {
+  overflow-wrap: break-word;
+}
+
 .article-body a {
   text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+/* Wide content scrolls inside itself instead of stretching the page on phones */
+.article-body table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.article-body pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.article-body figure {
+  max-width: 100%;
+}
+
+/* Imported WordPress block markup */
+.article-body .wp-block-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.article-body .wp-block-column {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.article-body .wp-block-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.article-body .wp-block-button__link {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  background: var(--gradient-brand);
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.article-body .aligncenter,
+.article-body .has-text-align-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .article-body a:hover {

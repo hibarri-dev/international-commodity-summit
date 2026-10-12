@@ -25,23 +25,23 @@ export default function BlogList() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#090a12] text-slate-100 py-20 px-4 sm:px-6 lg:px-8">
+    <div className="py-10 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <Link 
           to="/" 
-          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white mb-8"
+          className="inline-flex items-center gap-2 py-1 text-xs font-semibold text-slate-400 hover:text-white mb-6 sm:mb-8"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Summit Home
         </Link>
 
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#e01377] mb-3">
             <Newspaper className="w-3.5 h-3.5" /> News & Insights
           </div>
-          <h1 className="font-heading font-black text-4xl sm:text-5xl text-white mb-4">
+          <h1 className="font-heading font-black text-3xl sm:text-5xl text-white mb-3 sm:mb-4 leading-tight">
             Commodity Market Dispatches & Articles
           </h1>
-          <p className="text-slate-400 text-base max-w-2xl">
+          <p className="text-slate-400 text-sm sm:text-base max-w-2xl">
             Market analysis, speaker insights and announcements from the International Commodity Summit.
           </p>
         </div>
@@ -64,7 +64,7 @@ export default function BlogList() {
         ) : posts.length === 0 ? (
           <div className="text-slate-400 py-12">No articles published yet.</div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {posts.map((post) => (
               <Link
                 key={post._id}
@@ -85,7 +85,7 @@ export default function BlogList() {
                     </div>
                   )}
                 </div>
-                <div className="p-6 flex flex-col flex-1">
+                <div className="p-5 sm:p-6 flex flex-col flex-1">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400 mb-3">
                     {post.category && (
                       <span className="font-bold uppercase tracking-wider text-[10px] text-[#e01377]">{post.category}</span>

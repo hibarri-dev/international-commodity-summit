@@ -1,92 +1,164 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Layers, ExternalLink, Menu, X } from 'lucide-react';
 import { eventDetails } from '../data/summitData';
 
-export default function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
+const NAV_LINKS = [
+  { label: 'Overview', to: '/#about' },
+  { label: 'Industries', to: '/#industries' },
+  { label: 'Speakers', to: '/#speakers' },
+  { label: 'Agenda', to: '/#agenda' },
+  { label: 'Tickets', to: '/#tickets' },
+  { label: 'News', to: '/posts' },
+];
+
+export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { pathname, hash } = useLocation();
+  const [menuLocation, setMenuLocation] = useState(pathname + hash);
+
+  // Close the menu on any navigation, including browser back/forward.
+  if (menuLocation !== pathname + hash) {
+    setMenuLocation(pathname + hash);
+    setMenuOpen(false);
+  }
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onKey = (e) => e.key === 'Escape' && setMenuOpen(false);
+    const onResize = () => window.innerWidth >= 1024 && setMenuOpen(false);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    window.addEventListener('resize', onResize);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [menuOpen]);
+
+  const isActive = (to) => (to === '/posts' ? pathname.startsWith('/post') : pathname === '/' && hash === to.slice(1));
+
   return (
     <>
       {/* VENUE BADGE BAR */}
       <div className="relative z-50 bg-gradient-to-r from-[#1863dc] via-[#7a2fd6] to-[#e01377] text-white py-2 px-4 text-xs md:text-sm font-medium">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="bg-white/20 px-2 py-0.5 rounded-full text-[11px] font-semibold tracking-wider uppercase">New York 2027</span>
-            <span>{eventDetails.venue} • {eventDetails.dates}</span>
+        <div className="max-w-7xl mx-auto flex items-center justify-center sm:justify-between gap-3">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="shrink-0 bg-white/20 px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold tracking-wider uppercase">
+              New York 2027
+            </span>
+            <span className="truncate">
+              <span className="hidden sm:inline">{eventDetails.venue} • </span>
+              {eventDetails.dates}
+            </span>
           </div>
-          <a href="#tickets" className="hidden sm:inline-flex items-center gap-1 font-semibold underline underline-offset-2 hover:opacity-90">
+          <Link
+            to="/#tickets"
+            className="hidden md:inline-flex shrink-0 items-center gap-1 font-semibold underline underline-offset-2 hover:opacity-90"
+          >
             Registration Live — Passes from $1,270
-          </a>
+          </Link>
         </div>
       </div>
 
       {/* HEADER */}
       <header className="sticky top-0 z-40 bg-[#090a12]/85 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#1863dc] via-[#7a2fd6] to-[#e01377] flex items-center justify-center shadow-lg shadow-[#7a2fd6]/30 group-hover:scale-105 transition-transform">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group min-w-0">
+            <div className="shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-[#1863dc] via-[#7a2fd6] to-[#e01377] flex items-center justify-center shadow-lg shadow-[#7a2fd6]/30 group-hover:scale-105 transition-transform">
               <Layers className="w-5 h-5 text-white" />
             </div>
-            <div>
-              <span className="font-heading font-black text-xl tracking-tight text-white block leading-tight">
+            <div className="min-w-0">
+              <span className="font-heading font-black text-lg sm:text-xl tracking-tight text-white block leading-tight">
                 INTERNATIONAL
               </span>
-              <span className="font-heading font-semibold text-xs text-transparent bg-clip-text bg-gradient-to-r from-[#1863dc] via-[#7a2fd6] to-[#e01377] tracking-wider uppercase block">
+              <span className="font-heading font-semibold text-[10px] sm:text-xs text-transparent bg-clip-text bg-gradient-to-r from-[#1863dc] via-[#7a2fd6] to-[#e01377] tracking-wider uppercase block whitespace-nowrap">
                 Commodity Summit '27
               </span>
             </div>
-          </a>
+          </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-            <a href="#about" className="hover:text-white transition-colors">Overview</a>
-            <a href="#industries" className="hover:text-white transition-colors">Industries</a>
-            <a href="#speakers" className="hover:text-white transition-colors">Speakers</a>
-            <a href="#agenda" className="hover:text-white transition-colors">Agenda</a>
-            <a href="#tickets" className="hover:text-white transition-colors">Tickets</a>
+          {/* Desktop Nav — needs ~1000px for logo + links + CTAs, so it starts at lg */}
+          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className={`transition-colors hover:text-white ${isActive(link.to) ? 'text-white' : ''}`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
 
-          <div className="hidden md:flex items-center gap-4">
-            <a 
-              href="https://internationalcommoditysummit.com" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="text-xs uppercase tracking-wider text-slate-300 hover:text-white flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/25 transition-all"
+          <div className="hidden lg:flex items-center gap-4">
+            <a
+              href="https://internationalcommoditysummit.com"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden xl:flex text-xs uppercase tracking-wider text-slate-300 hover:text-white items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 hover:border-white/25 transition-all"
             >
               <span>Legacy WP</span>
               <ExternalLink className="w-3 h-3 text-slate-400" />
             </a>
-            <a 
-              href="#tickets"
+            <Link
+              to="/#tickets"
               className="px-5 py-2.5 rounded-full font-heading font-bold text-sm text-white bg-gradient-to-r from-[#1863dc] via-[#7a2fd6] to-[#e01377] shadow-lg shadow-[#7a2fd6]/25 hover:shadow-[#e01377]/40 hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               Get Tickets
-            </a>
+            </Link>
           </div>
 
           {/* Mobile hamburger */}
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-            className="md:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5"
-            aria-label="Toggle menu"
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            className="lg:hidden shrink-0 -mr-2 p-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
-        {/* Mobile menu dropdown */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-[#0e111d] border-b border-white/10 px-6 py-5 flex flex-col gap-4 text-base font-medium">
-            <a href="#about" onClick={() => setMobileMenuOpen(false)} className="hover:text-[#7a2fd6]">Overview</a>
-            <a href="#industries" onClick={() => setMobileMenuOpen(false)} className="hover:text-[#7a2fd6]">Industries</a>
-            <a href="#speakers" onClick={() => setMobileMenuOpen(false)} className="hover:text-[#7a2fd6]">Speakers</a>
-            <a href="#agenda" onClick={() => setMobileMenuOpen(false)} className="hover:text-[#7a2fd6]">Agenda</a>
-            <a href="#tickets" onClick={() => setMobileMenuOpen(false)} className="hover:text-[#7a2fd6]">Tickets</a>
-            <a 
-              href="#tickets" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-3 rounded-xl font-heading font-bold text-white bg-gradient-to-r from-[#1863dc] via-[#7a2fd6] to-[#e01377]"
-            >
-              Get Tickets ($1,270 / $1,970)
-            </a>
+        {/* Mobile menu — fills the screen below the header and locks page scroll */}
+        {menuOpen && (
+          <div
+            id="mobile-menu"
+            className="lg:hidden absolute inset-x-0 top-full h-[calc(100dvh-4rem)] sm:h-[calc(100dvh-5rem)] overflow-y-auto bg-[#0b0d18] border-t border-white/10"
+          >
+            <nav className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={() => setMenuOpen(false)}
+                  className={`py-3.5 border-b border-white/5 font-heading font-bold text-lg transition-colors ${
+                    isActive(link.to) ? 'text-white' : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <Link
+                to="/#tickets"
+                onClick={() => setMenuOpen(false)}
+                className="mt-6 w-full text-center py-3.5 rounded-xl font-heading font-bold text-white bg-gradient-to-r from-[#1863dc] via-[#7a2fd6] to-[#e01377]"
+              >
+                Get Tickets — from $1,270
+              </Link>
+              <a
+                href="https://internationalcommoditysummit.com"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-4 inline-flex items-center justify-center gap-1.5 text-xs uppercase tracking-wider text-slate-400 hover:text-white"
+              >
+                Legacy WP site <ExternalLink className="w-3 h-3" />
+              </a>
+            </nav>
           </div>
         )}
       </header>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import SiteLayout from './components/SiteLayout';
 import Home from './pages/Home';
 import BlogList from './pages/BlogList';
 import PostDetail from './pages/PostDetail';
@@ -10,10 +11,12 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/posts" element={<BlogList />} />
-        <Route path="/post/:slug" element={<PostDetail />} />
-        <Route path="/page/:slug" element={<PageDetail />} />
+        <Route element={<SiteLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/posts" element={<BlogList />} />
+          <Route path="/post/:slug" element={<PostDetail />} />
+          <Route path="/page/:slug" element={<PageDetail />} />
+        </Route>
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </BrowserRouter>

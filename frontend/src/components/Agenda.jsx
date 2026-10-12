@@ -7,9 +7,9 @@ export default function Agenda() {
   const currentAgenda = agendaSchedule.find((a) => a.day === activeDay) || agendaSchedule[0];
 
   return (
-    <section id="agenda" className="relative z-10 py-24 bg-[#0e111d] border-t border-white/10 px-4 sm:px-6 lg:px-8">
+    <section id="agenda" className="relative z-10 py-16 sm:py-24 bg-[#0e111d] border-t border-white/10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 sm:mb-12">
           <h2 className="text-xs font-bold uppercase tracking-widest text-[#1863dc] mb-3">Schedule of Events</h2>
           <h3 className="font-heading font-black text-3xl sm:text-5xl text-white tracking-tight mb-4">
             Comprehensive 3-Day Summit Agenda
@@ -20,12 +20,13 @@ export default function Agenda() {
         </div>
 
         {/* Day Switcher */}
-        <div className="flex items-center justify-center gap-3 mb-10">
+        <div className="grid grid-cols-3 gap-2 sm:flex sm:items-center sm:justify-center sm:gap-3 mb-6 sm:mb-10">
           {agendaSchedule.map((day) => (
             <button 
               key={day.day}
               onClick={() => setActiveDay(day.day)}
-              className={`px-6 py-3 rounded-xl font-heading font-bold text-sm transition-all cursor-pointer ${
+              aria-pressed={activeDay === day.day}
+              className={`px-2 sm:px-6 py-3 rounded-xl font-heading font-bold text-sm transition-all cursor-pointer ${
                 activeDay === day.day 
                   ? 'bg-gradient-to-r from-[#1863dc] via-[#7a2fd6] to-[#e01377] text-white shadow-lg shadow-[#7a2fd6]/25' 
                   : 'bg-[#121526] text-slate-400 hover:text-white border border-white/5'
@@ -47,10 +48,10 @@ export default function Agenda() {
           {currentAgenda.sessions.map((sess, idx) => (
             <div 
               key={idx} 
-              className="bg-[#121526] rounded-2xl p-6 border border-white/10 hover:border-[#7a2fd6]/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+              className="bg-[#121526] rounded-2xl p-5 sm:p-6 border border-white/10 hover:border-[#7a2fd6]/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
             >
-              <div className="flex-1">
-                <div className="flex items-center gap-3 text-xs font-semibold mb-2">
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs font-semibold mb-2">
                   <span className="flex items-center gap-1 text-[#1863dc]">
                     <Clock className="w-3.5 h-3.5" />
                     {sess.time}
@@ -71,7 +72,7 @@ export default function Agenda() {
               </div>
               <a 
                 href="#tickets"
-                className="self-start sm:self-center px-4 py-2 rounded-lg text-xs font-bold text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                className="self-start sm:self-center shrink-0 px-4 py-2.5 rounded-lg text-xs font-bold text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
               >
                 Reserve Seat
               </a>

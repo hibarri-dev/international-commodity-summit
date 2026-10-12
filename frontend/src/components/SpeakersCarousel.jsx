@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { speakers } from '../data/summitData';
 
+const SWIPE_THRESHOLD_PX = 50;
+
 export default function SpeakersCarousel() {
   const [speakerIndex, setSpeakerIndex] = useState(0);
+  const touchStartX = useRef(null);
 
   const nextSpeaker = () => {
     setSpeakerIndex((prev) => (prev + 1) % speakers.length);
@@ -12,10 +15,21 @@ export default function SpeakersCarousel() {
     setSpeakerIndex((prev) => (prev - 1 + speakers.length) % speakers.length);
   };
 
+  const onTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (delta <= -SWIPE_THRESHOLD_PX) nextSpeaker();
+    else if (delta >= SWIPE_THRESHOLD_PX) prevSpeaker();
+  };
+
   return (
-    <section id="speakers" className="relative z-10 py-24 bg-[#0a0c16] border-t border-white/10 px-4 sm:px-6 lg:px-8">
+    <section id="speakers" className="relative z-10 py-16 sm:py-24 bg-[#0a0c16] border-t border-white/10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div className="flex flex-row items-end justify-between gap-4 mb-8 sm:mb-12">
           <div>
             <h2 className="text-xs font-bold uppercase tracking-widest text-[#e01377] mb-3">Distinguished Faculty</h2>
             <h3 className="font-heading font-black text-3xl sm:text-5xl text-white tracking-tight">
@@ -24,17 +38,17 @@ export default function SpeakersCarousel() {
           </div>
           
           {/* Navigation Controls */}
-          <div className="flex items-center gap-3 mt-6 md:mt-0">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <button 
               onClick={prevSpeaker} 
-              className="w-12 h-12 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all cursor-pointer"
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all cursor-pointer"
               aria-label="Previous speaker"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button 
               onClick={nextSpeaker} 
-              className="w-12 h-12 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all cursor-pointer"
+              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all cursor-pointer"
               aria-label="Next speaker"
             >
               <ChevronRight className="w-5 h-5" />
@@ -43,15 +57,21 @@ export default function SpeakersCarousel() {
         </div>
 
         {/* Carousel Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 touch-pan-y"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
           {[0, 1, 2].map((offset) => {
             const item = speakers[(speakerIndex + offset) % speakers.length];
             return (
               <div 
                 key={item.id} 
-                className="bg-[#121526] rounded-2xl overflow-hidden border border-white/10 hover:border-[#7a2fd6]/50 transition-all flex flex-col group"
+                className={`bg-[#121526] rounded-2xl overflow-hidden border border-white/10 hover:border-[#7a2fd6]/50 transition-all flex-col group ${
+                  offset === 0 ? 'flex' : 'hidden md:flex'
+                }`}
               >
-                <div className="relative h-72 w-full overflow-hidden bg-slate-900">
+                <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-slate-900">
                   <img 
                     src={item.image} 
                     alt={item.name} 
@@ -82,14 +102,19 @@ export default function SpeakersCarousel() {
         </div>
 
         {/* Dot indicators */}
-        <div className="mt-8 flex justify-center gap-2">
+        <div className="mt-6 sm:mt-8 flex justify-center">
           {speakers.map((_, i) => (
             <button 
               key={i} 
               onClick={() => setSpeakerIndex(i)} 
-              className={`h-2 rounded-full transition-all cursor-pointer ${speakerIndex === i ? 'w-8 bg-gradient-to-r from-[#1863dc] to-[#e01377]' : 'w-2 bg-white/20'}`}
+              className="p-1.5 cursor-pointer"
               aria-label={`Go to slide ${i + 1}`}
-            />
+              aria-current={speakerIndex === i ? 'true' : undefined}
+            >
+              <span
+                className={`block h-2 rounded-full transition-all ${speakerIndex === i ? 'w-8 bg-gradient-to-r from-[#1863dc] to-[#e01377]' : 'w-2 bg-white/20'}`}
+              />
+            </button>
           ))}
         </div>
       </div>
