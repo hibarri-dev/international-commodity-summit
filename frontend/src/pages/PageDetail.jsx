@@ -30,14 +30,14 @@ export default function PageDetail() {
   }, [page]);
 
   if (loading) {
-    return <div className="text-slate-400 px-4 py-12 max-w-3xl mx-auto">Loading page...</div>;
+    return <div className="text-slate-500 px-4 py-12 max-w-3xl mx-auto">Loading page...</div>;
   }
 
   if (!page) {
     return (
-      <div className="px-4 py-16 text-center">
-        <h2 className="text-2xl font-bold mb-4">Page Not Found</h2>
-        <Link to="/" className="text-[#1863dc] underline">Return to Home</Link>
+      <div className="px-4 py-16 text-center bg-white">
+        <h2 className="text-2xl font-bold mb-4 text-slate-900">Page Not Found</h2>
+        <Link to="/" className="text-[#005EFF] underline">Return to Home</Link>
       </div>
     );
   }
@@ -45,24 +45,24 @@ export default function PageDetail() {
   const html = (page.content || []).map((block) => block.value || '').join('\n');
 
   return (
-    <div className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <div className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 bg-white min-h-[70vh]">
       <div className="max-w-3xl mx-auto">
         <Link 
           to="/" 
-          className="inline-flex items-center gap-2 py-1 text-xs font-semibold text-slate-400 hover:text-white mb-6 sm:mb-8"
+          className="inline-flex items-center gap-2 py-1 text-xs font-semibold text-slate-500 hover:text-[#005EFF] mb-6 sm:mb-8 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" /> Back to Summit Home
         </Link>
 
-        <header className="mb-8 sm:mb-10 pb-6 border-b border-white/10">
-          <div className="inline-flex items-center gap-1.5 text-xs text-[#7a2fd6] font-semibold uppercase tracking-wider mb-2">
+        <header className="mb-8 sm:mb-10 pb-6 border-b border-slate-200">
+          <div className="inline-flex items-center gap-1.5 text-xs text-[#005EFF] font-bold uppercase tracking-wider mb-2">
             <FileText className="w-3.5 h-3.5" /> Summit Official Document
           </div>
-          <h1 className="font-heading font-black text-3xl sm:text-5xl text-white mb-3 leading-tight break-words">
+          <h1 className="font-heading font-black text-3xl sm:text-5xl text-slate-900 mb-3 leading-tight break-words">
             {page.title}
           </h1>
-          <div className="text-xs text-slate-400 flex items-center gap-2">
-            <Calendar className="w-3.5 h-3.5 text-[#e01377]" />
+          <div className="text-xs text-slate-500 flex items-center gap-2">
+            <Calendar className="w-3.5 h-3.5 text-[#F40260]" />
             <span>Updated: {new Date(page.updatedAt || page.publishedAt).toLocaleDateString()}</span>
           </div>
         </header>
@@ -70,7 +70,7 @@ export default function PageDetail() {
         {html.trim() ? (
           <PostContent html={html} />
         ) : (
-          <p className="text-slate-400">Content currently being updated by the summit secretariat.</p>
+          <p className="text-slate-500">Content currently being updated by the summit secretariat.</p>
         )}
       </div>
     </div>

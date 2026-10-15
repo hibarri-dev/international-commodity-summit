@@ -71,93 +71,38 @@ export const brands = [
   { name: "Mercuria", category: "Energy & Commodities" }
 ];
 
-export const speakers = [
-  {
-    id: 1,
-    name: "Ashor Sarupen",
-    title: "Deputy Minister of Finance & Resource Strategy",
-    organization: "Global Trade Commission",
-    topic: "Fiscal Policies and Sovereign Mineral Security in 2028",
-    image: "/images/a5eb3-ashorsarupen.cdd-nquz_zynjfd-3.avif",
-    track: "Keynote"
-  },
-  {
-    id: 2,
-    name: "Victor Matfield",
-    title: "Global Head of Strategic Sourcing",
-    organization: "Continental Commodities",
-    topic: "Supply Chain Volatility & Forward Hedging Paradigms",
-    image: "/images/e23f4-victormatfield.cg06koid_r5hws-1.avif",
-    track: "Supply Chain"
-  },
-  {
-    id: 3,
-    name: "Prashant Goyal",
-    title: "Chief Investment Officer",
-    organization: "Apex Mineral Capital",
-    topic: "The Future of Battery Metals & Greenfield Capex",
-    image: "/images/f1a99-pashantgoyal.cza3tonb_z82khj.avif",
-    track: "Metals"
-  },
-  {
-    id: 4,
-    name: "Rutendo Shumba",
-    title: "Managing Director of Energy Transition",
-    organization: "Global Petro & Renewables",
-    topic: "Decarbonizing Heavy Maritime Freight by 2030",
-    image: "/images/1bc86-rutendo.c2s8r4zl_z1dfl59-1-1.avif",
-    track: "Energy"
-  },
-  {
-    id: 5,
-    name: "Sephela Maketethema",
-    title: "Head of Agricultural Trade Intelligence",
-    organization: "Pan-Atlantic Grain Alliance",
-    topic: "Food Security: Geopolitical Friction & Trade Flow Diversions",
-    image: "/images/89e21-sephelamaketethema.dykm5kqw_1cfasa.avif",
-    track: "Agriculture"
-  },
-  {
-    id: 6,
-    name: "Mthoxulu Cele",
-    title: "Director of Digital Trade & Settlement",
-    organization: "Commodity Ledger Systems",
-    topic: "Blockchain-backed Letters of Credit & Instant Cross-Border Clearing",
-    image: "/images/6e752-mthoxulu.d8mbuht3_z26swlh.avif",
-    track: "Trade Finance"
-  }
-];
+export const speakers = [];
 
 export const agendaSchedule = [
   {
     day: "Day 1",
     date: "Nov 15, 2027",
-    focus: "Global Macro Outlook, Geopolitics & Energy Security",
+    focus: "Global Macro Outlook, Energy Security & Critical Minerals",
     sessions: [
       {
         time: "08:30 - 09:30 AM",
-        title: "Registration, Executive Breakfast & Exhibition Opening",
+        title: "Registration, Executive Breakfast & Exhibition Floor Opening",
         location: "Grand Concourse & Expo Hall",
         type: "Networking"
       },
       {
         time: "09:30 - 10:45 AM",
         title: "Ministerial Keynote: The Reordering of Global Commodity Corridors",
-        speaker: "Ashor Sarupen & Global Panelists",
+        speaker: "Executive Plenary Panel & Trade Commissioners",
         location: "Plenary Hall A",
         type: "Keynote"
       },
       {
         time: "11:15 - 12:45 PM",
-        title: "Energy Transition vs. Hydrocarbon Reality: Balancing Supply",
-        speaker: "Rutendo Shumba, Vitol & TotalEnergies Reps",
+        title: "US Energy Dominance & The Transatlantic LNG Bridge",
+        speaker: "US LNG Operators, European Utilities & Pipeline Executives",
         location: "Energy Stage",
         type: "Panel"
       },
       {
         time: "02:00 - 03:30 PM",
-        title: "Critical Minerals: Solving Bottlenecks for the Green Grid",
-        speaker: "Prashant Goyal & Mining Majors",
+        title: "Critical Minerals & Defense Supply Chain Independence",
+        speaker: "North American Mining Majors & Defense Procurement Leaders",
         location: "Metals Arena",
         type: "Interactive Workshop"
       },
@@ -176,22 +121,22 @@ export const agendaSchedule = [
     sessions: [
       {
         time: "09:00 - 10:15 AM",
-        title: "Global Grain & Softs Outlook: Climate Resilience in Agriculture",
-        speaker: "Sephela Maketethema, Cargill & ADM Directors",
+        title: "US Agricultural Corridors & Global Food Security",
+        speaker: "Midwest Agribusiness Syndicates & Port Authorities",
         location: "Plenary Hall A",
         type: "Keynote"
       },
       {
         time: "10:45 - 12:15 PM",
-        title: "The Liquidity Crunch: Modern Trade Finance & Basel Compliance",
-        speaker: "Mthoxulu Cele & Global Bankers",
+        title: "The Liquidity Crunch: Modern Trade Finance & Digital Settlement",
+        speaker: "Wall Street & International Commodity Bankers",
         location: "Finance Forum",
         type: "Panel"
       },
       {
         time: "01:45 - 03:15 PM",
-        title: "Maritime Freight Volatility: Port Congestion and Clean Fuels",
-        speaker: "Victor Matfield & Logistics Leaders",
+        title: "Maritime Freight Volatility: Port Congestion & Clean Dual-Fuels",
+        speaker: "Global Carriers, Rail Operators & Intermodal Executives",
         location: "Logistics Stage",
         type: "Deep Dive"
       },
@@ -211,14 +156,14 @@ export const agendaSchedule = [
       {
         time: "09:30 - 11:00 AM",
         title: "Algorithmic Commodity Trading: Satellite AI & Real-time Flow Signals",
-        speaker: "Hedge Fund CIOs & Tech Founders",
+        speaker: "Quantitative Hedge Fund CIOs & Tech Pioneers",
         location: "Innovation Hub",
         type: "Tech Showcase"
       },
       {
         time: "11:30 - 01:00 PM",
         title: "The 2028 Forecast: Price Arbitrage & Currency Swaps",
-        speaker: "Executive Consensus Board",
+        speaker: "Executive Consensus Board & Global Chief Economists",
         location: "Plenary Hall A",
         type: "Closing Panel"
       },

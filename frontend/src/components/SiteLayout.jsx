@@ -19,7 +19,7 @@ export default function SiteLayout() {
   }, [pathname, hash]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#090a12] text-slate-100 selection:bg-[#e01377] selection:text-white">
+    <div className="min-h-screen flex flex-col bg-white text-slate-900 selection:bg-[#F40260] selection:text-white">
       <Navbar />
       <div className="flex-1">
         <Outlet />

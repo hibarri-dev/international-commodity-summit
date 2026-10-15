@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import DOMPurify from 'dompurify';
 
 export const ARTICLE_CLASSES =
-  'article-body prose prose-invert prose-base sm:prose-lg max-w-none prose-headings:font-heading prose-headings:font-black prose-a:font-semibold';
+  'article-body prose prose-slate prose-base sm:prose-lg max-w-none prose-headings:font-heading prose-headings:font-black prose-a:font-semibold prose-a:text-[#005EFF]';
 
 DOMPurify.addHook('afterSanitizeAttributes', (node) => {
   if (node.tagName === 'A' && node.getAttribute('target') === '_blank') {

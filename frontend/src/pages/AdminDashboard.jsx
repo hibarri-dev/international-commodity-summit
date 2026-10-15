@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
   Users, 
   Eye, 
-  Clock, 
   FileText, 
   Plus, 
   Trash2, 
   TrendingUp, 
   Globe, 
-  Smartphone, 
   Monitor,
-  CheckCircle2,
   Pencil,
   ExternalLink,
   Search,
@@ -34,24 +31,19 @@ export default function AdminDashboard() {
   const [openingPostId, setOpeningPostId] = useState(null);
   const [postSearch, setPostSearch] = useState('');
 
-  useEffect(() => {
-    if (!token) return;
-    loadDashboardData();
-  }, [token]);
-
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     fetch(`${BACKEND_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' }).catch(() => {});
     localStorage.removeItem(ADMIN_TOKEN_KEY);
     setToken('');
     setEditingPost(undefined);
-  };
+  }, []);
 
-  const handleAuthError = () => {
+  const handleAuthError = useCallback(() => {
     alert('Your session has expired. Please sign in again.');
     handleLogout();
-  };
+  }, [handleLogout]);
 
-  const loadDashboardData = async () => {
+  const loadDashboardData = useCallback(async () => {
     const results = await Promise.allSettled([
       adminRequest('/api/admin/summit/overview', { token }),
       adminRequest('/api/admin/summit/traffic', { token }),
@@ -65,7 +57,12 @@ export default function AdminDashboard() {
     if (resOverview.status === 'fulfilled') setOverview(resOverview.value.data);
     if (resTraffic.status === 'fulfilled') setTraffic(resTraffic.value.data);
     if (resPosts.status === 'fulfilled') setPosts(resPosts.value.data);
-  };
+  }, [token, handleLogout]);
+
+  useEffect(() => {
+    if (!token) return;
+    loadDashboardData();
+  }, [token, loadDashboardData]);
 
   const openPost = async (id) => {
     setOpeningPostId(id);
