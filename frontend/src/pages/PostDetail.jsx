@@ -49,7 +49,7 @@ export default function PostDetail() {
   if (!post) {
     return (
       <div className="px-4 py-16 text-center bg-white">
-        <h2 className="text-2xl font-bold mb-4 text-slate-900">Post Not Found</h2>
+        <h2 className="font-heading text-2xl font-bold mb-4 text-slate-900">Post Not Found</h2>
         <Link to="/posts" className="text-[#005EFF] underline">Return to all posts</Link>
       </div>
     );

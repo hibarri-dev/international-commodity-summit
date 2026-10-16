@@ -149,8 +149,8 @@ export default function FloorplanAnimation() {
               <div className="relative min-w-[620px] sm:min-w-full aspect-[16/10]">
               <svg
                 viewBox="0 0 900 580"
-                className="w-full h-full select-none"
-                style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))' }}
+                className="w-full h-full select-none font-sans"
+                style={{ filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.4))', fontFamily: "var(--font-sans)" }}
               >
                 <defs>
                   {/* Stage Lighting Gradients */}
@@ -208,6 +208,15 @@ export default function FloorplanAnimation() {
                       0% { opacity: 0.3; transform: scaleX(0.95); }
                       50% { opacity: 0.7; transform: scaleX(1.05); }
                       100% { opacity: 0.3; transform: scaleX(0.95); }
+                    }
+                    text {
+                      font-family: var(--font-sans, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+                    }
+                    .font-heading,
+                    .font-spartan,
+                    text[font-weight="bold"],
+                    text[font-weight="semibold"] {
+                      font-family: var(--font-spartan, 'League Spartan', -apple-system, BlinkMacSystemFont, sans-serif);
                     }
                     .walk-1 { animation: walkPath1 18s ease-in-out infinite; }
                     .walk-2 { animation: walkPath2 22s ease-in-out infinite; }

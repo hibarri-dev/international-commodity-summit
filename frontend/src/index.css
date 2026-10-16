@@ -10,6 +10,7 @@
   --color-card-border: #e2e8f0;
 
   --font-spartan: 'League Spartan', sans-serif;
+  --font-heading: 'League Spartan', sans-serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -53,9 +54,28 @@ body {
   overflow-x: clip;
 }
 
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+}
+
 h1, h2, h3, h4, h5, h6, .font-heading {
   font-family: var(--font-spartan);
   letter-spacing: -0.02em;
+}
+
+/* Ensure all SVG text elements inherit proper font families rather than defaulting to browser serif/Times */
+svg text {
+  font-family: var(--font-sans);
+}
+
+svg text.font-heading,
+svg text.font-spartan,
+svg text[font-weight="bold"],
+svg text[font-weight="semibold"],
+svg text[font-weight="700"],
+svg text[font-weight="800"],
+svg text[font-weight="900"] {
+  font-family: var(--font-spartan);
 }
 
 /* Mobile-friendly horizontal scroll without ugly scrollbars */
@@ -105,7 +125,18 @@ h1, h2, h3, h4, h5, h6, .font-heading {
 }
 
 .article-body {
+  font-family: var(--font-sans);
   overflow-wrap: break-word;
+}
+
+.article-body h1,
+.article-body h2,
+.article-body h3,
+.article-body h4,
+.article-body h5,
+.article-body h6,
+.article-body .font-heading {
+  font-family: var(--font-spartan);
 }
 
 .article-body a {
