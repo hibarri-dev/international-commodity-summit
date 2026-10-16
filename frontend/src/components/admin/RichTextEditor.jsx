@@ -400,7 +400,7 @@ export default function RichTextEditor({ value, onChange, onUploadImage, placeho
             onChange(e.target.value);
           }}
           spellCheck={false}
-          className="w-full min-h-[420px] px-5 py-4 bg-transparent text-slate-200 font-mono text-xs leading-relaxed focus:outline-none"
+          className="w-full min-h-[420px] px-5 py-4 bg-transparent text-slate-200 font-sans text-xs leading-relaxed focus:outline-none"
         />
       ) : (
         <EditorContent editor={editor} />

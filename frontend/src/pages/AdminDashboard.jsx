@@ -278,7 +278,7 @@ export default function AdminDashboard() {
                   <tbody className="divide-y divide-white/5">
                     {traffic.sessions?.slice(0, 15).map((s) => (
                       <tr key={s._id} className="hover:bg-white/5">
-                        <td className="py-2.5 font-mono text-[11px] text-slate-400">{s.sessionId.substring(0, 16)}...</td>
+                        <td className="py-2.5 font-sans text-[11px] text-slate-400">{s.sessionId.substring(0, 16)}...</td>
                         <td className="text-white font-medium">{s.landingPage}</td>
                         <td>{s.pageViews}</td>
                         <td>{s.referrerLabel}</td>
