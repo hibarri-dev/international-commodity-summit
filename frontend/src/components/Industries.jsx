@@ -5,13 +5,13 @@ import { industries } from '../data/summitData';
 export default function Industries() {
   const getIcon = (id) => {
     switch (id) {
-      case 'agri': return <Wheat className="w-6 h-6 text-[#005EFF]" />;
-      case 'metals': return <Layers className="w-6 h-6 text-[#F40260]" />;
-      case 'energy': return <Flame className="w-6 h-6 text-[#005EFF]" />;
-      case 'finance': return <Landmark className="w-6 h-6 text-[#F40260]" />;
-      case 'logistics': return <Ship className="w-6 h-6 text-[#005EFF]" />;
-      case 'tech': return <Cpu className="w-6 h-6 text-[#F40260]" />;
-      default: return <Layers className="w-6 h-6 text-[#005EFF]" />;
+      case 'agri': return <Wheat className="w-6 h-6 text-slate-900" />;
+      case 'metals': return <Layers className="w-6 h-6 text-slate-900" />;
+      case 'energy': return <Flame className="w-6 h-6 text-slate-900" />;
+      case 'finance': return <Landmark className="w-6 h-6 text-slate-900" />;
+      case 'logistics': return <Ship className="w-6 h-6 text-slate-900" />;
+      case 'tech': return <Cpu className="w-6 h-6 text-slate-900" />;
+      default: return <Layers className="w-6 h-6 text-slate-900" />;
     }
   };
 
@@ -19,12 +19,12 @@ export default function Industries() {
     <section id="industries" className="relative z-10 py-16 sm:py-24 bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-[#005EFF] mb-3">Sectors in Focus</h2>
-          <h3 className="font-heading font-black text-3xl sm:text-5xl text-slate-900 tracking-tight mb-4">
-            Critical Commodity Sectors
+          <h2 className="text-xs font-bold uppercase tracking-widest text-[#005EFF] mb-3">Sectors Attending</h2>
+          <h3 className="font-heading font-black text-3xl sm:text-5xl text-slate-900 text-transform: uppercase tracking-tight mb-4">
+            Who's Attending
           </h3>
           <p className="text-slate-600 text-base sm:text-lg">
-            Covering the entire physical macro lifecycle of critical resources, strategic supply corridors, and international commercial exchange.
+            The entire list of macro economic commodity sector participants.
           </p>
         </div>
 
@@ -40,12 +40,6 @@ export default function Industries() {
                 </div>
                 <h4 className="font-heading font-bold text-xl text-slate-900 mb-2">{ind.title}</h4>
                 <p className="text-sm text-slate-600 leading-relaxed mb-6">{ind.description}</p>
-              </div>
-              <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-xs">
-                <span className="font-semibold text-slate-700">{ind.metrics}</span>
-                <span className="text-[#005EFF] font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  Explore Track <ArrowRight className="w-3 h-3 text-[#F40260]" />
-                </span>
               </div>
             </div>
           ))}
