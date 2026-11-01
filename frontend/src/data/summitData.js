@@ -6,10 +6,10 @@ export const eventDetails = {
   venue: "Meadowlands Exhibition Center",
   location: "New York, USA",
   stats: [
-    { label: "Global Attendees", value: "3,500+" },
+    { label: "International Attendees", value: "3,500+" },
     { label: "Executive Speakers", value: "85+" },
-    { label: "Participating Nations", value: "60+" },
-    { label: "Trading Volume Represented", value: "$120B+" }
+    { label: "Participating Countries", value: "40+" },
+    { label: "Capital Present", value: "$120B+" }
   ]
 };
 
@@ -18,57 +18,44 @@ export const industries = [
     id: "agri",
     title: "Agricultural Commodities",
     description: "Grain, softs, oilseeds, fertilizers, and global supply resilience strategies.",
-    metrics: "450+ Agribusiness Traders",
     icon: "Wheat"
   },
   {
     id: "metals",
     title: "Critical Minerals & Metals",
-    description: "Copper, lithium, nickel, rare earth elements, and industrial manufacturing metals.",
-    metrics: "600+ Mining & Metal Majors",
+    description: "Copper, lithium, nickel, rare earth elements, mining and industrial manufacturing metals.",
     icon: "Pickaxe"
   },
   {
     id: "energy",
     title: "Energy & Renewables",
     description: "Crude, LNG, bio-fuels, clean hydrogen, carbon credits, and energy transition.",
-    metrics: "800+ Energy Corporations",
     icon: "Flame"
   },
   {
     id: "finance",
-    title: "Trade Finance & Hedging",
-    description: "Structured trade finance, derivatives, FX hedging, and digital settlements.",
-    metrics: "350+ Global Financial Institutions",
+    title: "Finance",
+    description: "Private equity, venture capital, structured trade finance, credit instruments, derivatives, FX hedging, and digital settlements.",
     icon: "Landmark"
   },
   {
     id: "logistics",
-    title: "Maritime & Global Logistics",
-    description: "Dry bulk, container shipping, port infrastructure, and real-time tracking.",
-    metrics: "280+ Freight & Port Operators",
+    title: "Maritime & Logistics",
+    description: "Dry bulk, container shipping, port infrastructure, transport & customs clearance.",
     icon: "Ship"
   },
   {
-    id: "tech",
-    title: "AI & Commodity Intelligence",
-    description: "Satellite imagery forecasting, algorithmic arbitrage, and real-time trade flows.",
-    metrics: "180+ Data & Tech Providers",
+    id: "textiles",
+    title: "Bulk Textiles Trade",
+    description: "Cottons, yards, fabrics, sheets and textile industry inputs.",
+    icon: "Cpu"
+  },
+  {
+    id: "FMCG",
+    title: "Food Commodities",
+    description: "Fast moving bulk consumables and food inputs.",
     icon: "Cpu"
   }
-];
-
-export const brands = [
-  { name: "Glencore", category: "Mining & Trading" },
-  { name: "Trafigura", category: "Physical Commodities" },
-  { name: "Cargill", category: "Agri-Enterprise" },
-  { name: "Vitol", category: "Energy Trading" },
-  { name: "ADM", category: "Global Agriculture" },
-  { name: "BHP", category: "Resources" },
-  { name: "Bunge", category: "Agribusiness" },
-  { name: "Rio Tinto", category: "Mining" },
-  { name: "TotalEnergies", category: "Energy Transition" },
-  { name: "Mercuria", category: "Energy & Commodities" }
 ];
 
 export const speakers = [];
@@ -77,7 +64,7 @@ export const agendaSchedule = [
   {
     day: "Day 1",
     date: "Nov 15, 2027",
-    focus: "Global Macro Outlook, Energy Security & Critical Minerals",
+    focus: "Macro Outlook, Energy Security & Critical Minerals",
     sessions: [
       {
         time: "08:30 - 09:30 AM",
