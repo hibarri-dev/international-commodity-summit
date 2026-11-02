@@ -64,102 +64,42 @@ export const agendaSchedule = [
   {
     day: "Day 1",
     date: "Nov 15, 2027",
-    focus: "Macro Outlook, Energy Security & Critical Minerals",
     sessions: [
-      {
-        time: "08:30 - 09:30 AM",
-        title: "Registration, Executive Breakfast & Exhibition Floor Opening",
-        location: "Grand Concourse & Expo Hall",
-        type: "Networking"
-      },
-      {
-        time: "09:30 - 10:45 AM",
-        title: "Ministerial Keynote: The Reordering of Global Commodity Corridors",
-        speaker: "Executive Plenary Panel & Trade Commissioners",
-        location: "Plenary Hall A",
-        type: "Keynote"
-      },
-      {
-        time: "11:15 - 12:45 PM",
-        title: "US Energy Dominance & The Transatlantic LNG Bridge",
-        speaker: "US LNG Operators, European Utilities & Pipeline Executives",
-        location: "Energy Stage",
-        type: "Panel"
-      },
-      {
-        time: "02:00 - 03:30 PM",
-        title: "Critical Minerals & Defense Supply Chain Independence",
-        speaker: "North American Mining Majors & Defense Procurement Leaders",
-        location: "Metals Arena",
-        type: "Interactive Workshop"
-      },
-      {
-        time: "05:00 - 07:30 PM",
-        title: "VIP Welcome Drinks & Hibarri Networking Reception",
-        location: "Skyline Lounge",
-        type: "Social & VIP"
-      }
+      { time: "8:00 – 9:00 AM", title: "Coffee & Breakfast Networking", type: "break" },
+      { time: "9:00 – 10:00 AM", title: "Rare Earths, Critical Minerals & Commodities of the Future", track: "Mining & Metals", type: "session" },
+      { time: "10:00 – 11:00 AM", title: "AI, Humanoid Robots and their Impact on the Mining & Metals Sector", track: "Mining & Metals", type: "session" },
+      { time: "11:00 AM – 12:00 PM", title: "Green Steel, Cement, Glass & Buildings – Can We Build Truly Smart Cities?", track: "Mining & Metals", type: "session" },
+      { time: "12:00 – 1:00 PM", title: "Lunch", type: "break" },
+      { time: "1:00 – 2:00 PM", title: "Defence Tech Mining & Metals Requirements, Critical Minerals & Chemicals", track: "Mining & Metals", type: "session" },
+      { time: "2:00 – 3:00 PM", title: "Nuclear Power, Hydrogen, Oil & Gas, Solar, Wind and Competitors vs the Grid", track: "Energy", type: "session" },
+      { time: "3:00 – 5:00 PM", title: "Networking Sessions", type: "break" },
+      { time: "6:00 PM – 12:00 AM", title: "VIP Gala Evening (VIPs Only)", type: "vip" }
     ]
   },
   {
     day: "Day 2",
     date: "Nov 16, 2027",
-    focus: "Agriculture, Supply Chain Tech & Trade Financing",
     sessions: [
-      {
-        time: "09:00 - 10:15 AM",
-        title: "US Agricultural Corridors & Global Food Security",
-        speaker: "Midwest Agribusiness Syndicates & Port Authorities",
-        location: "Plenary Hall A",
-        type: "Keynote"
-      },
-      {
-        time: "10:45 - 12:15 PM",
-        title: "The Liquidity Crunch: Modern Trade Finance & Digital Settlement",
-        speaker: "Wall Street & International Commodity Bankers",
-        location: "Finance Forum",
-        type: "Panel"
-      },
-      {
-        time: "01:45 - 03:15 PM",
-        title: "Maritime Freight Volatility: Port Congestion & Clean Dual-Fuels",
-        speaker: "Global Carriers, Rail Operators & Intermodal Executives",
-        location: "Logistics Stage",
-        type: "Deep Dive"
-      },
-      {
-        time: "04:00 - 05:30 PM",
-        title: "Dealmakers Speed Networking: 1-on-1 Bilateral Meetings",
-        location: "Executive Meeting Suites",
-        type: "Deal-Making"
-      }
+      { time: "8:00 – 9:00 AM", title: "Coffee & Breakfast Networking", type: "break" },
+      { time: "9:00 – 10:00 AM", title: "Greener Energy Investments – What is the Future of Power?", track: "Energy", type: "session" },
+      { time: "10:00 – 11:00 AM", title: "Upstream Oil & Gas – How Much is Left to Drill and is Oil Going Out of Fashion?", track: "Energy", type: "session" },
+      { time: "11:00 AM – 12:00 PM", title: "Geopolitical Oil & Gas Bottlenecks, Permian Basin & Strait of Hormuz – Is Infrastructure Still Worth the Investment?", track: "Energy", type: "session" },
+      { time: "12:00 – 1:00 PM", title: "Lunch", type: "break" },
+      { time: "1:00 – 2:00 PM", title: "Investment in Commodity Businesses – What Investors are Optimistic About Investing in at the Moment", track: "Finance", type: "session" },
+      { time: "2:00 – 3:00 PM", title: "Banking, Trade Finance, Credit & Insurance in the Commodity Sectors", track: "Finance", type: "session" }
     ]
   },
   {
     day: "Day 3",
     date: "Nov 17, 2027",
-    focus: "Trading Technologies, Derivatives & Future Outlook",
     sessions: [
-      {
-        time: "09:30 - 11:00 AM",
-        title: "Algorithmic Commodity Trading: Satellite AI & Real-time Flow Signals",
-        speaker: "Quantitative Hedge Fund CIOs & Tech Pioneers",
-        location: "Innovation Hub",
-        type: "Tech Showcase"
-      },
-      {
-        time: "11:30 - 01:00 PM",
-        title: "The 2028 Forecast: Price Arbitrage & Currency Swaps",
-        speaker: "Executive Consensus Board & Global Chief Economists",
-        location: "Plenary Hall A",
-        type: "Closing Panel"
-      },
-      {
-        time: "01:00 - 02:30 PM",
-        title: "Closing Ceremonies, Summit Gala & Partner Awards",
-        location: "Grand Ballroom",
-        type: "Gala Luncheon"
-      }
+      { time: "8:00 – 9:00 AM", title: "Coffee & Breakfast Networking", type: "break" },
+      { time: "9:00 – 10:00 AM", title: "Machinery, Automation & Infrastructure Requirements for the Next 100 Years of Supply Chain", track: "Logistics", type: "session" },
+      { time: "10:00 – 11:00 AM", title: "Solving the Largest Maritime & Air Freight Logistics Problems in the World Right Now", track: "Logistics", type: "session" },
+      { time: "11:00 AM – 12:00 PM", title: "Food, Farming & Pharmaceutical Chemical Commodities and How They'll Change by 2090", track: "Chemicals", type: "session" },
+      { time: "12:00 – 1:00 PM", title: "Lunch", type: "break" },
+      { time: "1:00 – 2:00 PM", title: "How We'll Guarantee Organic Food Security, Whether GMOs, Pesticides & Chemicals Should Stay, and What Rising Veganism & Vegetarian Diet Shifts Mean for Agriculture", track: "Agricultural Commodities", type: "session" },
+      { time: "2:00 – 3:00 PM", title: "Combatting Food Imports & Delivering from the National Food Basket to America", track: "Food & FMCG", type: "session" }
     ]
   }
 ];
@@ -174,9 +114,8 @@ export const tickets = [
     description: "Full access to the 3-day conference, technical tracks, exhibition floor, and standard networking areas.",
     features: [
       "Access to all 3 Summit days (Nov 15-17)",
-      "Access to all 6 Industry Stream sessions",
+      "Access to every sector session across all 3 days",
       "Full Expo floor entry & product demonstrations",
-      "Official Summit mobile networking app with messaging",
       "Lunch, coffee breaks & standard networking receptions",
       "Post-event session recordings and slide decks"
     ],
@@ -194,8 +133,8 @@ export const tickets = [
       "Everything included in All Access Pass",
       "Dedicated Fast-Track VIP Registration & Concierge",
       "Exclusive access to the VIP Executive Lounge",
-      "Invitation to the Ministerial Welcome Dinner (Nov 15)",
-      "Reserved front-row seating across all Plenary sessions",
+      "Invitation to the VIP Gala Evening (Nov 15)",
+      "Reserved front-row seating across all sessions",
       "Direct 1-on-1 Bilateral Meeting Booking System",
       "Complimentary ticket transfers up to 48 hours before"
     ],

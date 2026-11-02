@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Layers, Menu, X, Award } from 'lucide-react';
 import { eventDetails } from '../data/summitData';
+import { sponsorshipContactInfo } from '../data/sponsorshipData';
+
+const SPONSOR_HREF = `mailto:${sponsorshipContactInfo.email}?subject=${encodeURIComponent('Sponsorship enquiry - International Commodity Summit')}`;
 
 const NAV_LINKS = [
   { label: 'Overview', to: '/#about' },
-  { label: 'Panels', to: '/#panels' },
-  { label: 'Floorplan', to: '/#floorplan' },
+  { label: 'Sectors', to: '/#industries' },
   { label: '2025 Highlights', to: '/#brands-2025' },
-  { label: 'App', to: '/#app' },
-  { label: 'Sponsorship', to: '/#sponsorship' },
+  { label: 'Gallery', to: '/#gallery-2025' },
   { label: 'Agenda', to: '/#agenda' },
   { label: 'Tickets', to: '/#tickets' },
   { label: 'News', to: '/posts' },
@@ -74,10 +75,10 @@ export default function Navbar() {
               <Layers className="w-4 h-4 min-[380px]:w-5 min-[380px]:h-5 sm:w-6 sm:h-6 text-[#005EFF]" />
             </div>
             <div className="min-w-0">
-              <span className="font-heading font-black text-sm min-[380px]:text-base sm:text-xl tracking-tight text-white block leading-tight truncate">
+              <span className="font-spartan font-black text-sm min-[380px]:text-base sm:text-xl tracking-tight text-white block leading-tight truncate">
                 INTERNATIONAL
               </span>
-              <span className="font-heading font-bold text-[9px] min-[380px]:text-[10px] sm:text-xs text-white/90 tracking-wider uppercase block whitespace-nowrap">
+              <span className="font-spartan font-bold text-[9px] min-[380px]:text-[10px] sm:text-xs text-white/90 tracking-wider uppercase block whitespace-nowrap">
                 Commodity Summit '27
               </span>
             </div>
@@ -99,13 +100,13 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <Link
-              to="/#sponsorship"
+            <a
+              href={SPONSOR_HREF}
               className="hidden lg:inline-flex text-xs uppercase tracking-wider text-white font-bold px-3 py-2 rounded-lg bg-white/15 hover:bg-white/25 border border-white/25 transition-all items-center gap-1.5"
             >
               <Award className="w-3.5 h-3.5" />
               <span>Sponsor</span>
-            </Link>
+            </a>
             
             {/* Quick action button visible on all viewports */}
             <Link
@@ -152,13 +153,13 @@ export default function Navbar() {
               ))}
 
               <div className="pt-5 mt-2 border-t border-white/20 flex flex-col gap-3">
-                <Link
-                  to="/#sponsorship"
+                <a
+                  href={SPONSOR_HREF}
                   onClick={() => setMenuOpen(false)}
                   className="w-full text-center py-3.5 rounded-xl font-heading font-bold text-white bg-white/20 border border-white/30 hover:bg-white/30 text-sm active:scale-[0.99] transition-all"
                 >
-                  Sponsorship Packages
-                </Link>
+                  Become a Sponsor
+                </a>
                 <Link
                   to="/#tickets"
                   onClick={() => setMenuOpen(false)}

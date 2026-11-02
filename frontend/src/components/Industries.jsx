@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wheat, Layers, Flame, Landmark, Ship, Cpu, ArrowRight } from 'lucide-react';
+import { Wheat, Layers, Flame, Landmark, Ship, Shirt, ShoppingBasket } from 'lucide-react';
 import { industries } from '../data/summitData';
 
 export default function Industries() {
@@ -10,7 +10,8 @@ export default function Industries() {
       case 'energy': return <Flame className="w-6 h-6 text-slate-900" />;
       case 'finance': return <Landmark className="w-6 h-6 text-slate-900" />;
       case 'logistics': return <Ship className="w-6 h-6 text-slate-900" />;
-      case 'tech': return <Cpu className="w-6 h-6 text-slate-900" />;
+      case 'textiles': return <Shirt className="w-6 h-6 text-slate-900" />;
+      case 'FMCG': return <ShoppingBasket className="w-6 h-6 text-slate-900" />;
       default: return <Layers className="w-6 h-6 text-slate-900" />;
     }
   };
@@ -20,7 +21,7 @@ export default function Industries() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <h2 className="text-xs font-bold uppercase tracking-widest text-[#005EFF] mb-3">Sectors Attending</h2>
-          <h3 className="font-heading font-black text-3xl sm:text-5xl text-slate-900 text-transform: uppercase tracking-tight mb-4">
+          <h3 className="font-heading font-bold text-3xl sm:text-5xl text-slate-900 uppercase tracking-tight mb-4">
             Who's Attending
           </h3>
           <p className="text-slate-600 text-base sm:text-lg">

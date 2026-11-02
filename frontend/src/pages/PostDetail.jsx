@@ -71,7 +71,7 @@ export default function PostDetail() {
               {post.category}
             </span>
           )}
-          <h1 className="font-heading font-black text-3xl sm:text-5xl text-slate-900 mb-4 sm:mb-5 leading-tight break-words">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl text-slate-900 mb-4 sm:mb-5 leading-tight break-words">
             {post.title}
           </h1>
           {post.excerpt && <p className="text-base sm:text-lg text-slate-600 leading-relaxed mb-6">{post.excerpt}</p>}

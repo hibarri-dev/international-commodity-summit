@@ -11,7 +11,7 @@ export default function Tickets({ onSelectTicket }) {
             <Ticket className="w-3.5 h-3.5" />
             Official Conference Registration
           </div>
-          <h2 className="font-heading font-black text-3xl sm:text-5xl text-slate-900 tracking-tight mb-4">
+          <h2 className="font-heading font-bold text-3xl sm:text-5xl text-slate-900 tracking-tight mb-4">
             Select Your Summit Pass
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">
@@ -36,7 +36,7 @@ export default function Tickets({ onSelectTicket }) {
               )}
 
               <div>
-                <h3 className="font-heading font-black text-xl sm:text-2xl text-slate-900 mb-2">{t.name}</h3>
+                <h3 className="font-heading font-bold text-xl sm:text-2xl text-slate-900 mb-2">{t.name}</h3>
                 <p className="text-xs text-slate-600 mb-5 min-h-[32px] sm:min-h-[36px] leading-relaxed">{t.description}</p>
                 
                 <div className="mb-6 sm:mb-8 pb-5 sm:pb-6 border-b border-slate-100">

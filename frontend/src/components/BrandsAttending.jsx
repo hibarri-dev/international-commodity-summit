@@ -2,30 +2,61 @@ import React from 'react';
 import { Building2 } from 'lucide-react';
 
 export const brands2025 = [
-  { name: "Maersk", category: "Global Shipping & Logistics", logo: "/brands-2025/f8420-maersk.png" },
-  { name: "Johannesburg Stock Exchange", category: "Financial Exchanges & Derivatives", logo: "/brands-2025/d55d6-jse-logo-edited.jpg" },
-  { name: "Brand South Africa", category: "Sovereign Trade Promotion", logo: "/brands-2025/66b7a-brandsa-logo.jpg" },
-  { name: "Yellow Door Energy", category: "Commercial Clean Power", logo: "/brands-2025/8a798-yellow-door-energy-logo.png" },
-  { name: "African Energy Chamber", category: "Energy Policy & Trade", logo: "/brands-2025/e8553-african-energy-chamber-logo-png.png" },
-  { name: "Metal Line Africa", category: "Physical Metals & Bulk Freight", logo: "/brands-2025/5cf0e-metal-line-africa-logo-1.jpeg" },
-  { name: "CopperCore", category: "Strategic Copper Processing", logo: "/brands-2025/bcf4e-coppercore-logo.png" },
-  { name: "Africa GreenCo", category: "Renewable Power Offtake", logo: "/brands-2025/aa3e5-africa_greenco_logo.png" },
-  { name: "GMEX Group", category: "Exchange Infrastructure & AI", logo: "/brands-2025/5fdd2-gmex-logo.png" },
-  { name: "SAOGA", category: "Oil, Gas & Energy Alliance", logo: "/brands-2025/fbb1f-saoga.png" },
-  { name: "DTIC", category: "Department of Trade & Industry", logo: "/brands-2025/fa9c1-dtic.jpg" },
-  { name: "Mineral Technologies", category: "Mineral Beneficiation & Tech", logo: "/brands-2025/e9488-mineral-technologies.webp" },
-  { name: "Minexx", category: "Mineral Supply Chain Traceability", logo: "/brands-2025/fab01-minexx.webp" },
-  { name: "Agbiz", category: "Agricultural Business Chamber", logo: "/brands-2025/f5eba-agbiz.jpeg" },
-  { name: "Digby Wells", category: "Environmental & Mining Advisory", logo: "/brands-2025/4e42d-digby-wells-logo.jpeg" },
-  { name: "CRU Group", category: "Commodity Intelligence & Analysis", logo: "/brands-2025/6d790-cru_logo.jpg" },
-  { name: "Tradepedia", category: "Trade Learning & Settlement", logo: "/brands-2025/758d0-tradepedia-logo.png" },
-  { name: "IOA", category: "In On Africa Research", logo: "/brands-2025/3c078-ioa-logo-2017.png" },
-  { name: "Luno", category: "Digital Asset Settlement", logo: "/brands-2025/3fe6b-luno-logos.png" },
-  { name: "Invest Cape Town", category: "Municipal & Port Investment", logo: "/brands-2025/d8e42-cape-town-logo.png" },
-  { name: "Pangea Risk", category: "Sovereign & Geopolitical Risk", logo: "/brands-2025/d9d2b-pangea-risk_logo_on-the-move.jpg" },
-  { name: "Mining Review", category: "Industry Media & Publishing", logo: "/brands-2025/d53e4-mining-review-png.png" },
-  { name: "AWIMSA", category: "Mining Industry Association", logo: "/brands-2025/eb450-awimsa.png" },
-  { name: "Universal Coal", category: "Resource Extraction & Mining", logo: "/brands-2025/b38c3-universal_coal_plc_logo.jpeg" }
+  { name: "Honeywell", category: "Industrial Technology", logo: "/brands-2025/honeywell.png" },
+  { name: "S&P Global", category: "Commodity Insights", logo: "/brands-2025/sp-global.png" },
+  { name: "Microsoft", category: "Technology", logo: "/brands-2025/microsoft.png" },
+  { name: "McKinsey & Company", category: "Management Consulting", logo: "/brands-2025/mckinsey.png" },
+  { name: "Aon", category: "Risk & Insurance", logo: "/brands-2025/aon.jpg" },
+  { name: "Maersk", category: "Shipping & Logistics", logo: "/brands-2025/f8420-maersk.png" },
+  { name: "Control Risks", category: "Risk Consulting", logo: "/brands-2025/control-risks.png" },
+  { name: "WeWork", category: "Workspace", logo: "/brands-2025/wework.png" },
+  { name: "CRU Group", category: "Commodity Intelligence", logo: "/brands-2025/6d790-cru_logo.jpg" },
+  { name: "Moore Global", category: "Accounting & Advisory", logo: "/brands-2025/moore-global.png" },
+  { name: "IBC Solar", category: "Solar Energy", logo: "/brands-2025/ibc-solar.webp" },
+  { name: "Jindal Africa", category: "Steel & Mining", logo: "/brands-2025/jindal-africa.png" },
+  { name: "Johannesburg Stock Exchange", category: "Exchange", logo: "/brands-2025/d55d6-jse-logo-edited.jpg" },
+  { name: "Rand Merchant Bank", category: "Banking", logo: "/brands-2025/rmb.png" },
+  { name: "FNB", category: "Banking", logo: "/brands-2025/fnb.png" },
+  { name: "Rainbow Rare Earths", category: "Rare Earths", logo: "/brands-2025/rainbow-rare-earths.png" },
+  { name: "Pensana", category: "Rare Earths", logo: "/brands-2025/pensana.png" },
+  { name: "Renergen", category: "Gas & Helium", logo: "/brands-2025/renergen.png" },
+  { name: "Fraser Alexander", category: "Mining Services", logo: "/brands-2025/fraser-alexander.jpg" },
+  { name: "Mineral Technologies", category: "Mineral Processing", logo: "/brands-2025/e9488-mineral-technologies.webp" },
+  { name: "Energy Capital & Power", category: "Energy Investment", logo: "/brands-2025/energy-capital-power.png" },
+  { name: "BRICS Business Council", category: "Trade Council", logo: "/brands-2025/brics-business-council.jpeg" },
+  { name: "Canada Africa Chamber of Commerce", category: "Trade Chamber", logo: "/brands-2025/canada-africa-chamber.jpeg" },
+  { name: "GMEX Group", category: "Exchange Technology", logo: "/brands-2025/5fdd2-gmex-logo.png" },
+  { name: "ecosystem.Ai", category: "Artificial Intelligence", logo: "/brands-2025/ecosystem-ai.jpg" },
+  { name: "Luno", category: "Digital Assets", logo: "/brands-2025/3fe6b-luno-logos.png" },
+  { name: "Metal Line Africa", category: "Metals & Logistics", logo: "/brands-2025/5cf0e-metal-line-africa-logo-1.jpeg" },
+  { name: "Brand South Africa", category: "Trade Promotion", logo: "/brands-2025/66b7a-brandsa-logo.jpg" },
+  { name: "DTIC", category: "Trade & Industry", logo: "/brands-2025/fa9c1-dtic.jpg" },
+  { name: "NERSA", category: "Energy Regulator", logo: "/brands-2025/nersa.jpg" },
+  { name: "ECIC", category: "Export Credit Insurance", logo: "/brands-2025/ecic.png" },
+  { name: "Mintek", category: "Minerals Research", logo: "/brands-2025/mintek.png" },
+  { name: "SACCI", category: "Chamber of Commerce", logo: "/brands-2025/sacci.jpg" },
+  { name: "African Energy Chamber", category: "Energy Policy", logo: "/brands-2025/e8553-african-energy-chamber-logo-png.png" },
+  { name: "Africa Energy Indaba", category: "Energy Forum", logo: "/brands-2025/africa-energy-indaba.jpg" },
+  { name: "SAOGA", category: "Oil & Gas Association", logo: "/brands-2025/fbb1f-saoga.png" },
+  { name: "Maritime Business Chamber", category: "Maritime", logo: "/brands-2025/maritime-business-chamber.png" },
+  { name: "CopperCore", category: "Copper", logo: "/brands-2025/bcf4e-coppercore-logo.png" },
+  { name: "Universal Coal", category: "Mining", logo: "/brands-2025/b38c3-universal_coal_plc_logo.jpeg" },
+  { name: "Homeland Mining", category: "Mining", logo: "/brands-2025/homeland-mining.png" },
+  { name: "MAB Mining & Construction", category: "Mining & Construction", logo: "/brands-2025/mab-mining.jpg" },
+  { name: "Minexx", category: "Mineral Traceability", logo: "/brands-2025/fab01-minexx.webp" },
+  { name: "Digby Wells", category: "Environmental Advisory", logo: "/brands-2025/4e42d-digby-wells-logo.jpeg" },
+  { name: "Yellow Door Energy", category: "Solar Energy", logo: "/brands-2025/8a798-yellow-door-energy-logo.png" },
+  { name: "Solar MD", category: "Energy Storage", logo: "/brands-2025/solar-md.png" },
+  { name: "Africa GreenCo", category: "Renewable Energy", logo: "/brands-2025/aa3e5-africa_greenco_logo.png" },
+  { name: "Agbiz", category: "Agricultural Business", logo: "/brands-2025/f5eba-agbiz.jpeg" },
+  { name: "Commodity Trading Club", category: "Trading Network", logo: "/brands-2025/commodity-trading-club.jpeg" },
+  { name: "Pangea Risk", category: "Geopolitical Risk", logo: "/brands-2025/d9d2b-pangea-risk_logo_on-the-move.jpg" },
+  { name: "IOA", category: "Research", logo: "/brands-2025/3c078-ioa-logo-2017.png" },
+  { name: "Tradepedia", category: "Trading Education", logo: "/brands-2025/758d0-tradepedia-logo.png" },
+  { name: "Jenzy", category: "Technology", logo: "/brands-2025/jenzy.png" },
+  { name: "Invest Cape Town", category: "Investment Promotion", logo: "/brands-2025/d8e42-cape-town-logo.png" },
+  { name: "AWIMSA", category: "Mining Association", logo: "/brands-2025/eb450-awimsa.png" },
+  { name: "Mining Review", category: "Media", logo: "/brands-2025/d53e4-mining-review-png.png" }
 ];
 
 export default function BrandsAttending() {
@@ -37,11 +68,11 @@ export default function BrandsAttending() {
             <Building2 className="w-3.5 h-3.5" />
             Proven Global Track Record
           </div>
-          <h2 className="font-heading font-black text-2xl sm:text-4xl text-slate-900 tracking-tight mb-3">
+          <h2 className="font-heading font-bold text-2xl sm:text-4xl text-slate-900 tracking-tight mb-3">
             Brands & Institutions Present in 2025
           </h2>
           <p className="text-slate-600 text-sm sm:text-base">
-            Represented by global trade leaders, sovereign ministries, shipping conglomerates, and mining majors who gathered at our inaugural summit.
+            Global corporations, banks, miners, energy producers and trade bodies who joined us at the 2025 summit.
           </p>
         </div>
 

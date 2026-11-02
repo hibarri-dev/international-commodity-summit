@@ -10,7 +10,7 @@
   --color-card-border: #e2e8f0;
 
   --font-spartan: 'League Spartan', sans-serif;
-  --font-heading: 'League Spartan', sans-serif;
+  --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -59,8 +59,15 @@ button, input, optgroup, select, textarea {
 }
 
 h1, h2, h3, h4, h5, h6, .font-heading {
-  font-family: var(--font-spartan);
+  font-family: var(--font-heading);
   letter-spacing: -0.02em;
+}
+
+/* League Spartan is reserved for the hero and the wordmark. Must stay unlayered to beat the heading rule above. */
+#about h1,
+#about .font-heading,
+.font-spartan {
+  font-family: var(--font-spartan);
 }
 
 /* Ensure all SVG text elements inherit proper font families rather than defaulting to browser serif/Times */
@@ -136,7 +143,8 @@ svg text[font-weight="900"] {
 .article-body h5,
 .article-body h6,
 .article-body .font-heading {
-  font-family: var(--font-spartan);
+  font-family: var(--font-heading);
+  font-weight: 700;
 }
 
 .article-body a {

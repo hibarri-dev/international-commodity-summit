@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import Hero from '../components/Hero';
 import Industries from '../components/Industries';
-import FeaturedPanels from '../components/FeaturedPanels';
-import FloorplanAnimation from '../components/FloorplanAnimation';
 import BrandsAttending from '../components/BrandsAttending';
 import Gallery2025 from '../components/Gallery2025';
-import AppShowcase from '../components/AppShowcase';
-import SponsorshipPackages from '../components/SponsorshipPackages';
 import Agenda from '../components/Agenda';
 import Tickets from '../components/Tickets';
 import SignupSection from '../components/SignupSection';
@@ -29,12 +25,8 @@ export default function Home() {
       <main className="relative z-10">
         <Hero />
         <Industries />
-        <FeaturedPanels />
-        <FloorplanAnimation />
         <BrandsAttending />
         <Gallery2025 />
-        <AppShowcase />
-        <SponsorshipPackages />
         <Agenda />
         <Tickets onSelectTicket={(ticket) => setSelectedTicket(ticket)} />
         <SignupSection />

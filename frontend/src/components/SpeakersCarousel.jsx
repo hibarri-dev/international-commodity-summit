@@ -32,7 +32,7 @@ export default function SpeakersCarousel() {
         <div className="flex flex-row items-end justify-between gap-4 mb-8 sm:mb-12">
           <div>
             <h2 className="text-xs font-bold uppercase tracking-widest text-[#e01377] mb-3">Distinguished Faculty</h2>
-            <h3 className="font-heading font-black text-3xl sm:text-5xl text-white tracking-tight">
+            <h3 className="font-heading font-bold text-3xl sm:text-5xl text-white tracking-tight">
               Featured Keynotes & Panelists
             </h3>
           </div>
@@ -88,7 +88,7 @@ export default function SpeakersCarousel() {
 
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div>
-                    <h4 className="font-heading font-black text-2xl text-white mb-1">{item.name}</h4>
+                    <h4 className="font-heading font-bold text-2xl text-white mb-1">{item.name}</h4>
                     <p className="text-sm font-semibold text-[#1863dc] mb-1">{item.title}</p>
                     <p className="text-xs text-slate-400 mb-4">{item.organization}</p>
                     <div className="p-3.5 rounded-xl bg-white/5 border border-white/5 text-xs text-slate-300 italic">

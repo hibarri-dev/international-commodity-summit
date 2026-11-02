@@ -1,6 +1,7 @@
 import React from 'react';
-import { Calendar, MapPin, ArrowRight, Sparkles, Globe2 } from 'lucide-react';
+import { Calendar, MapPin, Sparkles } from 'lucide-react';
 import { eventDetails } from '../data/summitData';
+import { sponsorshipContactInfo } from '../data/sponsorshipData';
 
 export default function Hero() {
   return (
@@ -42,13 +43,13 @@ export default function Hero() {
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 mb-12 sm:mb-18 max-w-xl sm:max-w-none mx-auto">
           <a 
-            href="#floorplan"
+            href="#agenda"
             className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-heading text-sm sm:text-base text-slate-800 bg-white border border-slate-300 shadow-xs hover:bg-slate-50 hover:border-slate-400 transition-all flex items-center justify-center gap-2 min-h-[48px]"
           >
             <span>View the Agenda</span>
           </a>
           <a 
-            href="#sponsorship"
+            href={`mailto:${sponsorshipContactInfo.email}?subject=${encodeURIComponent('Sponsorship enquiry - International Commodity Summit')}`}
             className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-heading text-sm sm:text-base text-[#005EFF] bg-blue-50 border border-blue-200 hover:bg-blue-100 transition-all flex items-center justify-center gap-2 min-h-[48px]"
           >
             <span>Sponsor</span>

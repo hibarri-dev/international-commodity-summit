@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { sortFeaturedFirst } from '../src/data/galleryFeatured.js';
 
 const frontendDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const exportDir = path.resolve(frontendDir, '..', 'wordpress-export');
@@ -145,7 +146,7 @@ for (const f of fs.readdirSync(outImageDir)) {
   if (!keep.has(f)) fs.rmSync(path.join(outImageDir, f));
 }
 
-fs.writeFileSync(outDataFile, JSON.stringify(photos, null, 2) + '\n');
+fs.writeFileSync(outDataFile, JSON.stringify(sortFeaturedFirst(photos), null, 2) + '\n');
 
 const counts = photos.reduce((acc, p) => ({ ...acc, [p.category]: (acc[p.category] || 0) + 1 }), {});
 console.log(`Imported ${photos.length} photos into ${path.relative(frontendDir, outImageDir)}`);

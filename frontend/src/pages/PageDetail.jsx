@@ -58,7 +58,7 @@ export default function PageDetail() {
           <div className="inline-flex items-center gap-1.5 text-xs text-[#005EFF] font-bold uppercase tracking-wider mb-2">
             <FileText className="w-3.5 h-3.5" /> Summit Official Document
           </div>
-          <h1 className="font-heading font-black text-3xl sm:text-5xl text-slate-900 mb-3 leading-tight break-words">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl text-slate-900 mb-3 leading-tight break-words">
             {page.title}
           </h1>
           <div className="text-xs text-slate-500 flex items-center gap-2">

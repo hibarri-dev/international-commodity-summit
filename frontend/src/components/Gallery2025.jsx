@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Camera, ChevronDown, ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react';
-import galleryPhotos from '../data/gallery2025.json';
+import importedPhotos from '../data/gallery2025.json';
+import { sortFeaturedFirst } from '../data/galleryFeatured';
+
+const galleryPhotos = sortFeaturedFirst(importedPhotos);
 
 const INITIAL_VISIBLE = 12;
 
@@ -137,7 +140,7 @@ export default function Gallery2025() {
             <Camera className="w-3.5 h-3.5" />
             2025 Photo Library
           </div>
-          <h2 className="font-heading font-black text-3xl sm:text-5xl text-slate-900 tracking-tight mb-4">
+          <h2 className="font-heading font-bold text-3xl sm:text-5xl text-slate-900 tracking-tight mb-4">
             Highlights from the 2025 Summit
           </h2>
           <p className="text-slate-600 text-base sm:text-lg">

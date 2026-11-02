@@ -22,11 +22,9 @@ export default function Footer() {
 
         <nav className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-2 font-medium text-xs">
           <Link to="/#about" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">About</Link>
-          <Link to="/#panels" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">Panels</Link>
-          <Link to="/#floorplan" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">Floorplan</Link>
+          <Link to="/#industries" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">Sectors</Link>
           <Link to="/#brands-2025" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">2025 Brands</Link>
-          <Link to="/#app" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">Official App</Link>
-          <Link to="/#sponsorship" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">Sponsorship</Link>
+          <Link to="/#gallery-2025" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">Gallery</Link>
           <Link to="/#agenda" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">Agenda</Link>
           <Link to="/#tickets" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">Passes</Link>
           <Link to="/posts" className="py-1.5 px-1 hover:text-[#005EFF] transition-colors">News</Link>

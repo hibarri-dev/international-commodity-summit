@@ -18,8 +18,8 @@ export default function SignupSection() {
         <div className="w-12 h-12 mx-auto mb-5 rounded-2xl bg-gradient-to-tr from-[#005EFF] to-[#F40260] flex items-center justify-center shadow-md">
           <Ticket className="w-6 h-6 text-white" />
         </div>
-        <h3 className="font-heading font-black text-2xl min-[400px]:text-3xl sm:text-4xl text-slate-900 mb-3">
-          Stay Updated on Agenda & Plenary Additions
+        <h3 className="font-heading font-bold text-2xl min-[400px]:text-3xl sm:text-4xl text-slate-900 mb-3">
+          Stay Updated on Agenda & Speaker Additions
         </h3>
         <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto mb-8">
           Receive the official summit prospectus, delegate list updates, and room block codes for the Meadowlands Exhibition Center.

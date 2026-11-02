@@ -38,11 +38,11 @@ export default function BlogList() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-[#005EFF] mb-3">
             <Newspaper className="w-3.5 h-3.5" /> News & Insights
           </div>
-          <h1 className="font-heading font-black text-3xl sm:text-5xl text-slate-900 mb-3 sm:mb-4 leading-tight">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl text-slate-900 mb-3 sm:mb-4 leading-tight">
             Commodity Market Dispatches & Articles
           </h1>
           <p className="text-slate-600 text-sm sm:text-base max-w-2xl">
-            Market analysis, plenary insights, and official announcements from the International Commodity Summit.
+            Market analysis, session insights, and official announcements from the International Commodity Summit.
           </p>
         </div>
 
@@ -100,7 +100,7 @@ export default function BlogList() {
                       </span>
                     )}
                   </div>
-                  <h3 className="font-heading font-black text-lg text-slate-900 group-hover:text-[#005EFF] transition-colors mb-2 line-clamp-2">
+                  <h3 className="font-heading font-bold text-lg text-slate-900 group-hover:text-[#005EFF] transition-colors mb-2 line-clamp-2">
                     {post.title}
                   </h3>
                   {post.excerpt && (

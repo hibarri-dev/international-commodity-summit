@@ -46,7 +46,7 @@ export default function TicketModal({ ticket, onClose }) {
         </button>
 
           <span className="text-xs font-bold uppercase tracking-wider text-[#F40260]">Confirm Delegate Pass</span>
-          <h4 id="ticket-modal-title" className="font-heading font-black text-2xl text-slate-900 mt-1 mb-2 pr-8">
+          <h4 id="ticket-modal-title" className="font-heading font-bold text-2xl text-slate-900 mt-1 mb-2 pr-8">
             {ticket.name}
           </h4>
           <div className="font-heading font-black text-3xl sm:text-4xl text-slate-900 mb-2">

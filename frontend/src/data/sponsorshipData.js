@@ -121,7 +121,7 @@ export const sponsorshipPackages = [
 
 export const sponsorshipContactInfo = {
   director: "Director of Global Partnerships",
-  email: "partnerships@internationalcommoditysummit.com",
+  email: "vp@internationalcommoditysummit.com",
   phone: "+1 (212) 555-0198",
   brochureDownloadUrl: "#sponsorship-kit"
 };
