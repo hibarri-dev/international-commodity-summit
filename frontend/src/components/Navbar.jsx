@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Layers, Menu, X, Award } from 'lucide-react';
-import { eventDetails } from '../data/summitData';
-import { sponsorshipContactInfo } from '../data/sponsorshipData';
-
-const SPONSOR_HREF = `mailto:${sponsorshipContactInfo.email}?subject=${encodeURIComponent('Sponsorship enquiry - International Commodity Summit')}`;
+import { Menu, X, Award } from 'lucide-react';
+// Keep in sync with EVENT in pages/Home.jsx.
+const EVENT_VENUE = 'Meadowlands Exhibition Center';
+const EVENT_DATES = '15 - 17 November 2027';
+const SPONSOR_HREF = `mailto:vp@internationalcommoditysummit.com?subject=${encodeURIComponent('Sponsorship enquiry - International Commodity Summit')}`;
 
 const NAV_LINKS = [
   { label: 'Overview', to: '/#about' },
@@ -54,8 +54,8 @@ export default function Navbar() {
               New York 2027
             </span>
             <span className="truncate text-white/95 text-xs">
-              <span className="hidden sm:inline">{eventDetails.venue} • </span>
-              {eventDetails.dates}
+              <span className="hidden sm:inline">{EVENT_VENUE} • </span>
+              {EVENT_DATES}
             </span>
           </div>
           <Link
@@ -70,18 +70,12 @@ export default function Navbar() {
       {/* MAIN TOP NAV - GRADIENT #005EFF to #F40260 */}
       <header className="sticky top-0 z-40 bg-gradient-to-r from-[#005EFF] to-[#F40260] text-white shadow-lg shadow-[#005EFF]/15 border-b border-white/20 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-2 sm:gap-3 group min-w-0">
-            <div className="shrink-0 w-8 h-8 min-[380px]:w-9 min-[380px]:h-9 sm:w-11 sm:h-11 rounded-xl bg-white text-[#005EFF] flex items-center justify-center shadow-md group-hover:scale-105 transition-transform font-black">
-              <Layers className="w-4 h-4 min-[380px]:w-5 min-[380px]:h-5 sm:w-6 sm:h-6 text-[#005EFF]" />
-            </div>
-            <div className="min-w-0">
-              <span className="font-spartan font-black text-sm min-[380px]:text-base sm:text-xl tracking-tight text-white block leading-tight truncate">
-                INTERNATIONAL
-              </span>
-              <span className="font-spartan font-bold text-[9px] min-[380px]:text-[10px] sm:text-xs text-white/90 tracking-wider uppercase block whitespace-nowrap">
-                Commodity Summit '27
-              </span>
-            </div>
+          <Link to="/" className="flex items-center min-w-0" aria-label="International Commodity Summit 2027 - Home">
+            <img
+              src="/logo/logo-full-white.png"
+              alt="International Commodity Summit 2027"
+              className="h-9 min-[380px]:h-10 sm:h-12 w-auto"
+            />
           </Link>
 
           {/* Desktop Nav Links (xl+) */}
@@ -107,15 +101,6 @@ export default function Navbar() {
               <Award className="w-3.5 h-3.5" />
               <span>Sponsor</span>
             </a>
-            
-            {/* Quick action button visible on all viewports */}
-            <Link
-              to="/#tickets"
-              className="px-3 min-[380px]:px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full font-heading font-black text-xs sm:text-sm text-[#005EFF] bg-white hover:bg-slate-50 shadow-md hover:scale-[1.03] active:scale-[0.98] transition-all whitespace-nowrap"
-            >
-              Get Tickets
-            </Link>
-
             {/* Mobile hamburger button */}
             <button
               type="button"
@@ -160,13 +145,6 @@ export default function Navbar() {
                 >
                   Become a Sponsor
                 </a>
-                <Link
-                  to="/#tickets"
-                  onClick={() => setMenuOpen(false)}
-                  className="w-full text-center py-4 rounded-xl font-heading font-black text-[#005EFF] bg-white shadow-xl text-sm active:scale-[0.99] transition-all"
-                >
-                  Get Tickets — from $1,270
-                </Link>
               </div>
             </nav>
           </div>
