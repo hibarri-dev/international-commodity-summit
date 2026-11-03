@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { label: '2025 Highlights', to: '/#brands-2025' },
   { label: 'Gallery', to: '/#gallery-2025' },
   { label: 'Agenda', to: '/#agenda' },
+  { label: 'Event App', to: '/#app' },
   { label: 'Tickets', to: '/#tickets' },
   { label: 'News', to: '/posts' },
 ];

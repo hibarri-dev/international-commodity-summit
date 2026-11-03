@@ -34,14 +34,14 @@ export default function BlogList() {
           <ArrowLeft className="w-4 h-4" /> Back to Summit Home
         </Link>
 
-        <div className="mb-8 sm:mb-12">
+        <div className="mb-8 sm:mb-12 text-center flex flex-col items-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-xs font-bold text-[#005EFF] mb-3">
             <Newspaper className="w-3.5 h-3.5" /> News & Insights
           </div>
-          <h1 className="font-heading font-bold text-3xl sm:text-5xl text-slate-900 mb-3 sm:mb-4 leading-tight">
+          <h1 className="font-heading font-bold text-3xl sm:text-5xl text-slate-900 mb-3 sm:mb-4 leading-tight text-center">
             Commodity Market Dispatches & Articles
           </h1>
-          <p className="text-slate-600 text-sm sm:text-base max-w-2xl">
+          <p className="text-slate-600 text-sm sm:text-base max-w-2xl text-center mx-auto">
             Market analysis, session insights, and official announcements from the International Commodity Summit.
           </p>
         </div>
