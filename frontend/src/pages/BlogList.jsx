@@ -51,7 +51,7 @@ export default function BlogList() {
             {[0, 1, 2].map((i) => (
               <div key={i} className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden animate-pulse">
                 <div className="aspect-[16/9] bg-slate-200" />
-                <div className="p-6 space-y-3">
+                <div className="p-6 space-y-3"> 
                   <div className="h-3 w-24 bg-slate-200 rounded" />
                   <div className="h-5 w-full bg-slate-200 rounded" />
                   <div className="h-3 w-5/6 bg-slate-200 rounded" />
