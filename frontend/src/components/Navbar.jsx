@@ -13,7 +13,6 @@ const NAV_LINKS = [
   { label: 'Agenda', to: '/#agenda' },
   { label: 'Event App', to: '/#app' },
   { label: 'Tickets', to: '/#tickets' },
-  { label: 'News', to: '/posts' },
 ];
 
 export default function Navbar() {
@@ -96,7 +95,7 @@ export default function Navbar() {
       {menuOpen && (
         <div
           id="mobile-menu"
-          className="xl:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain bg-gradient-to-b from-[#005EFF] via-[#4d0080] to-[#F40260] text-white border-t border-white/20 p-5 sm:p-6 pb-20 shadow-2xl"
+          className="xl:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain bg-white text-slate-900 border-t border-slate-200 p-5 sm:p-6 pb-20 shadow-2xl"
         >
           <nav className="max-w-md mx-auto flex flex-col gap-1.5">
             {NAV_LINKS.map((link) => (
@@ -106,21 +105,28 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className={`py-3 px-4 rounded-xl font-heading font-bold text-base min-h-[48px] flex items-center transition-colors ${
                   isActive(link.to) 
-                    ? 'bg-white/25 text-white font-black' 
-                    : 'text-white/95 hover:bg-white/10 active:bg-white/20'
+                    ? 'bg-slate-100 text-[#005EFF] font-black' 
+                    : 'text-slate-900 hover:bg-slate-100 hover:text-[#005EFF] active:bg-slate-200'
                 }`}
               >
                 {link.label}
               </Link>
             ))}
 
-            <div className="pt-5 mt-2 border-t border-white/20 flex flex-col gap-3">
+            <div className="pt-4 mt-2 border-t border-slate-200 flex flex-col gap-2.5">
               <a
                 href={SPONSOR_HREF}
                 onClick={() => setMenuOpen(false)}
-                className="w-full text-center py-3.5 rounded-xl font-heading font-bold text-white bg-white/20 border border-white/30 hover:bg-white/30 text-sm active:scale-[0.99] transition-all"
+                className="w-full text-center py-3 rounded-xl font-heading font-bold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 text-sm active:scale-[0.99] transition-all"
               >
                 Become a Sponsor
+              </a>
+              <a
+                href="/#tickets"
+                onClick={() => setMenuOpen(false)}
+                className="w-full text-center py-3 rounded-xl font-heading font-bold text-white bg-gradient-to-r from-[#005EFF] to-[#F40260] hover:shadow-lg hover:shadow-[#005EFF]/25 text-sm active:scale-[0.99] transition-all block"
+              >
+                Buy Tickets
               </a>
             </div>
           </nav>

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, Calendar, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Coffee,
-  Flame, FlaskConical, Landmark, Layers, MapPin, Mic, Ship, Shirt, ShoppingBasket, Sparkles, Wheat, X,
+  Flame, FlaskConical, Landmark, Layers, MapPin, Ship, Shirt, ShoppingBasket, Sparkles, Wheat, X,
 } from 'lucide-react';
 import galleryJson from '../data/gallery2025.json';
 import { useTrafficTracker } from '../hooks/useTrafficTracker';
@@ -217,8 +217,7 @@ const TICKETS = [
     id: 'all-access',
     name: 'All Access Pass',
     badge: 'Most Popular',
-    price: '$1,270',
-    description: 'Full access to the 3-day conference, technical tracks, exhibition floor, and standard networking areas.',
+    price: '$1,970',
     features: [
       'Access to all 3 Summit days (Nov 15-17)',
       'Access to every sector session across all 3 days',
@@ -233,8 +232,7 @@ const TICKETS = [
     id: 'vip',
     name: 'VIP Executive Pass',
     badge: 'Executive Tier',
-    price: '$1,970',
-    description: 'Exclusive access tailored for C-suite leaders, government officials, and institutional commodity investors.',
+    price: '$2,970',
     features: [
       'Everything included in All Access Pass',
       'Dedicated Fast-Track VIP Registration & Concierge',
@@ -253,7 +251,6 @@ const TICKETS = [
     badge: 'Accredited Press',
     price: 'Free',
     priceSubtitle: 'Accredited media & press only • Subject to editorial approval',
-    description: 'Complimentary credentials reserved for verified journalists, editors, and broadcast media delegations.',
     features: [
       'Access to all 3 Summit days (Nov 15-17)',
       'Dedicated Media Workroom & Press Lounge access',
@@ -288,15 +285,15 @@ const CATEGORY_LABELS = { conference: 'Conference', gala: 'VIP Gala', moments: '
 
 const INITIAL_PHOTOS = 12;
 
-const sectionClass = 'relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 border-b border-slate-200';
+const sectionClass = 'relative py-10 sm:py-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200';
 const primaryButton =
-  'inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-sm font-semibold text-white bg-gradient-to-r from-[#005EFF] to-[#F40260] hover:opacity-90 transition-opacity min-h-[48px]';
+  'inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs uppercase tracking-wider font-bold text-white bg-gradient-to-r from-[#005EFF] via-[#5E3BEE] to-[#F40260] hover:brightness-110 shadow-md shadow-[#005EFF]/25 hover:shadow-lg hover:shadow-[#005EFF]/35 active:scale-[0.98] transition-all min-h-[44px]';
 const secondaryButton =
-  'inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md text-sm font-semibold text-slate-900 bg-white border border-slate-300 hover:border-slate-900 transition-colors min-h-[48px]';
+  'inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs uppercase tracking-wider font-bold text-slate-900 bg-white hover:bg-slate-50 border border-slate-300 hover:border-slate-900 shadow-xs hover:shadow-sm active:scale-[0.98] transition-all min-h-[44px]';
 
 function SectionHeader({ eyebrow, title, intro, children }) {
   return (
-    <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+    <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-6 sm:mb-8">
       {eyebrow && <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#005EFF] mb-3">{eyebrow}</p>}
       <h2 className="font-heading font-bold text-3xl sm:text-5xl text-slate-900 tracking-tight">{title}</h2>
       {intro && <p className="mt-4 text-slate-600 text-base sm:text-lg leading-relaxed text-center">{intro}</p>}
@@ -429,9 +426,9 @@ function HeroSlider({ photos }) {
 function HeroSection() {
   const strip = GALLERY_PHOTOS.slice(0, 3);
   return (
-    <section id="about" className="relative pt-14 sm:pt-20 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200">
+    <section id="about" className="relative pt-8 sm:pt-14 pb-10 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-200">
       <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
-        <p className="inline-flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-black mb-6">
+        <p className="inline-flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-black mb-4 sm:mb-6">
           <Sparkles className="w-4 h-4 text-black" />
           {HERO.eyebrow}
         </p>
@@ -441,9 +438,9 @@ function HeroSection() {
           {HERO.titleEnd}
         </h1>
 
-        <p className="mt-6 max-w-3xl mx-auto text-slate-600 text-base sm:text-xl leading-relaxed text-center">{HERO.intro}</p>
+        <p className="mt-4 sm:mt-6 max-w-3xl mx-auto text-slate-600 text-base sm:text-xl leading-relaxed text-center">{HERO.intro}</p>
 
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-sm font-medium text-slate-700">
+        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-sm font-medium text-slate-700">
           <span className="inline-flex items-center gap-2">
             <Calendar className="w-4 h-4 text-[#005EFF]" />
             {EVENT.dates}
@@ -454,14 +451,40 @@ function HeroSection() {
           </span>
         </div>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        {/* Action Buttons: Next to each other */}
+        <div className="mt-6 sm:mt-8 flex flex-row flex-wrap items-center justify-center gap-3">
           <a href="#agenda" className={primaryButton}>
             View the Agenda
           </a>
-          <a href={SPONSOR_HREF} className={secondaryButton}>Sponsor</a>
+          <a href={SPONSOR_HREF} className={secondaryButton}>
+            Sponsor
+          </a>
         </div>
 
-        <HeroSlider photos={strip} />
+        {/* Hero Photos: 1 on top, 2 below on mobile; 3 next to each other on desktop */}
+        <div className="mt-8 sm:mt-12 w-full max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3.5">
+            {strip.map((photo, idx) => (
+              <div
+                key={photo.src}
+                className={`overflow-hidden rounded-xl bg-slate-100 shadow-xs ${
+                  idx === 0
+                    ? 'col-span-2 md:col-span-1 aspect-[16/9] md:aspect-[4/3]'
+                    : 'col-span-1 aspect-[4/3]'
+                }`}
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt || 'Summit photo'}
+                  width={photo.width}
+                  height={photo.height}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -764,10 +787,10 @@ function AgendaSection() {
           {current.sessions.map((s) => {
             if (s.type === 'break') {
               return (
-                <li key={s.time} className="grid sm:grid-cols-[200px_1fr] gap-1 sm:gap-6 py-4 text-sm text-slate-500">
-                  <span className="font-medium">{s.time}</span>
+                <li key={s.time} className="grid sm:grid-cols-[180px_1fr] gap-1 sm:gap-4 py-2.5 sm:py-3 text-xs sm:text-sm text-slate-500">
+                  <span className="font-semibold text-slate-900">{s.time}</span>
                   <span className="inline-flex items-center gap-2">
-                    <Coffee className="w-4 h-4" />
+                    <Coffee className="w-4 h-4 text-slate-400" />
                     {s.title}
                   </span>
                 </li>
@@ -775,9 +798,13 @@ function AgendaSection() {
             }
             const isVip = s.type === 'vip';
             return (
-              <li key={s.time} className="grid sm:grid-cols-[200px_1fr_auto] gap-2 sm:gap-6 py-6 sm:items-center">
-                <span className={`text-sm font-semibold ${isVip ? 'text-[#F40260]' : 'text-[#005EFF]'}`}>{s.time}</span>
-                <h3 className="font-heading font-bold text-base sm:text-lg text-slate-900 leading-snug">{s.title}</h3>
+              <li key={s.time} className="grid sm:grid-cols-[180px_1fr_auto] gap-1.5 sm:gap-4 py-3 sm:py-3.5 sm:items-center">
+                <span className={`text-xs sm:text-sm font-bold ${isVip ? 'text-[#F40260]' : 'text-slate-900'}`}>
+                  {s.time}
+                </span>
+                <h3 className="font-heading font-medium text-xs sm:text-sm text-slate-800 leading-snug">
+                  {s.title}
+                </h3>
                 <span
                   className={`justify-self-start sm:justify-self-end inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs font-semibold whitespace-nowrap ${
                     isVip ? 'bg-[#F40260] text-white' : 'bg-blue-50 text-[#005EFF]'
@@ -791,17 +818,9 @@ function AgendaSection() {
           })}
         </ol>
 
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            to="/speakers"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 transition-colors min-h-[48px]"
-          >
-            <Mic className="w-4 h-4 text-[#F40260]" />
-            View Confirmed Speakers (25+)
-          </Link>
+        <div className="mt-8 flex justify-center">
           <a href="#tickets" className={primaryButton}>
             Get your pass
-            <ArrowRight className="w-4 h-4" />
           </a>
         </div>
       </div>
@@ -849,25 +868,23 @@ function TicketsSection({ onSelectTicket }) {
         <SectionHeader
           eyebrow="Official Conference Registration"
           title="Select Your Summit Pass"
-          intro="Official conference passes for delegates, institutional investors, trading desks, executive delegations, and accredited media."
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {TICKETS.map((t) => (
             <div
               key={t.id}
-              className={`bg-white rounded-lg p-6 sm:p-8 flex flex-col ${
+              className={`bg-white rounded-xl p-6 sm:p-7 flex flex-col shadow-xs ${
                 t.popular ? 'border-2 border-[#005EFF]' : 'border border-slate-200'
               }`}
             >
-              <div className="text-center pb-6 border-b border-slate-200">
+              <div className="text-center pb-5 border-b border-slate-200">
                 <p className={`text-xs font-semibold uppercase tracking-wider ${t.popular ? 'text-[#005EFF]' : 'text-slate-500'}`}>
                   {t.badge}
                 </p>
-                <h3 className="mt-2 font-heading font-bold text-2xl text-slate-900">{t.name}</h3>
-                <p className="mt-2 text-sm text-slate-600 leading-relaxed max-w-md mx-auto">{t.description}</p>
+                <h3 className="mt-1.5 font-heading font-bold text-2xl text-slate-900">{t.name}</h3>
 
-                <div className="mt-6">
+                <div className="mt-4">
                   <span className="font-heading font-bold text-4xl sm:text-5xl text-slate-900 tracking-tight">{t.price}</span>
                   <span className="block mt-1 text-xs text-slate-500">
                     {t.priceSubtitle || 'Per delegate • All 3 days inclusive • New York'}
@@ -875,9 +892,9 @@ function TicketsSection({ onSelectTicket }) {
                 </div>
               </div>
 
-              <ul className="mt-6 space-y-3 flex-1">
+              <ul className="mt-5 space-y-2.5 flex-1">
                 {t.features.map((feat) => (
-                  <li key={feat} className="flex items-start gap-2.5 text-sm text-slate-700 leading-snug">
+                  <li key={feat} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 leading-snug">
                     <CheckCircle2 className="w-4 h-4 text-[#005EFF] shrink-0 mt-0.5" />
                     <span>{feat}</span>
                   </li>
@@ -887,7 +904,7 @@ function TicketsSection({ onSelectTicket }) {
               {t.href ? (
                 <a
                   href={t.href}
-                  className="mt-8 w-full inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 transition-colors min-h-[48px] text-center"
+                  className="mt-6 w-full inline-flex items-center justify-center px-6 py-3 rounded-xl text-xs uppercase tracking-wider font-bold text-white bg-slate-900 hover:bg-slate-800 transition-colors min-h-[44px] text-center"
                 >
                   {t.cta}
                 </a>
@@ -895,10 +912,10 @@ function TicketsSection({ onSelectTicket }) {
                 <button
                   type="button"
                   onClick={() => onSelectTicket(t)}
-                  className={`mt-8 w-full cursor-pointer ${
+                  className={`mt-6 w-full cursor-pointer ${
                     t.popular
                       ? primaryButton
-                      : 'inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 transition-colors min-h-[48px]'
+                      : 'inline-flex items-center justify-center px-6 py-3 rounded-xl text-xs uppercase tracking-wider font-bold text-white bg-slate-900 hover:bg-slate-800 transition-colors min-h-[44px]'
                   }`}
                 >
                   {t.cta}
@@ -908,7 +925,7 @@ function TicketsSection({ onSelectTicket }) {
           ))}
         </div>
 
-        <p className="mt-10 text-sm text-slate-500 max-w-2xl mx-auto text-center">
+        <p className="mt-8 text-xs sm:text-sm text-slate-500 max-w-2xl mx-auto text-center">
           Need group delegation bookings (3+ passes) or sovereign official registration assistance? Contact{' '}
           <a
             href={`mailto:${EVENT.registrationEmail}`}
