@@ -20,6 +20,7 @@ export default function Footer() {
         <nav className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-2 font-medium text-xs text-black">
           <Link to="/#about" className="py-1.5 px-1 text-black hover:text-[#005EFF] transition-colors">About</Link>
           <Link to="/#industries" className="py-1.5 px-1 text-black hover:text-[#005EFF] transition-colors">Sectors</Link>
+          <Link to="/speakers" className="py-1.5 px-1 text-black hover:text-[#005EFF] transition-colors">Speakers</Link>
           <Link to="/#brands-2025" className="py-1.5 px-1 text-black hover:text-[#005EFF] transition-colors">2025 Brands</Link>
           <Link to="/#gallery-2025" className="py-1.5 px-1 text-black hover:text-[#005EFF] transition-colors">Gallery</Link>
           <Link to="/#agenda" className="py-1.5 px-1 text-black hover:text-[#005EFF] transition-colors">Agenda</Link>

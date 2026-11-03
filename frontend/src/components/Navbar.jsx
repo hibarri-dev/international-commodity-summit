@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Award } from 'lucide-react';
-// Keep in sync with EVENT in pages/Home.jsx.
-const EVENT_VENUE = 'Meadowlands Exhibition Center';
-const EVENT_DATES = '15 - 17 November 2027';
+
 const SPONSOR_HREF = `mailto:vp@internationalcommoditysummit.com?subject=${encodeURIComponent('Sponsorship enquiry - International Commodity Summit')}`;
 
 const NAV_LINKS = [
   { label: 'Overview', to: '/#about' },
   { label: 'Sectors', to: '/#industries' },
+  { label: 'Speakers', to: '/speakers' },
   { label: '2025 Highlights', to: '/#brands-2025' },
   { label: 'Gallery', to: '/#gallery-2025' },
   { label: 'Agenda', to: '/#agenda' },
@@ -43,115 +42,90 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  const isActive = (to) => (to === '/posts' ? pathname.startsWith('/post') : pathname === '/' && hash === to.slice(1));
+  const isActive = (to) => (to === '/speakers' ? pathname.startsWith('/speakers') : to === '/posts' ? pathname.startsWith('/post') : pathname === '/' && hash === to.slice(1));
 
   return (
-    <>
-      {/* VENUE BADGE BAR */}
-      <div className="relative z-50 bg-[#0047cc] text-white py-1.5 px-4 text-xs font-medium border-b border-white/15">
-        <div className="max-w-7xl mx-auto flex items-center justify-center sm:justify-between gap-3">
-          <div className="flex items-center gap-2 min-w-0">
-            <span className="shrink-0 bg-white/20 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold tracking-wider uppercase">
-              New York 2027
-            </span>
-            <span className="truncate text-white/95 text-xs">
-              <span className="hidden sm:inline">{EVENT_VENUE} • </span>
-              {EVENT_DATES}
-            </span>
-          </div>
-          <Link
-            to="/#tickets"
-            className="hidden md:inline-flex shrink-0 items-center gap-1.5 font-bold text-white underline underline-offset-2 hover:text-white/90 transition-colors"
+    <header className="sticky top-0 z-40 bg-gradient-to-r from-[#005EFF] to-[#F40260] text-white shadow-lg shadow-[#005EFF]/15 border-b border-white/20 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+        <Link to="/" className="flex items-center min-w-0" aria-label="International Commodity Summit 2027 - Home">
+          <img
+            src="/logo/logo-full-white.png"
+            alt="International Commodity Summit 2027"
+            className="h-9 min-[380px]:h-10 sm:h-12 w-auto"
+          />
+        </Link>
+
+        {/* Desktop Nav Links (xl+) */}
+        <nav className="hidden xl:flex items-center gap-5 text-sm font-semibold text-white/90">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`transition-colors hover:text-white hover:underline underline-offset-4 py-1.5 ${
+                isActive(link.to) ? 'text-white underline font-bold' : ''
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            href={SPONSOR_HREF}
+            className="hidden lg:inline-flex text-xs uppercase tracking-wider text-white font-bold px-3 py-2 rounded-lg bg-white/15 hover:bg-white/25 border border-white/25 transition-all items-center gap-1.5"
           >
-            Registration Open — Official Passes from $1,270
-          </Link>
+            <Award className="w-3.5 h-3.5" />
+            <span>Sponsor</span>
+          </a>
+          {/* Mobile hamburger button */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            className="xl:hidden shrink-0 p-2 sm:p-2.5 rounded-xl text-white hover:bg-white/15 active:bg-white/25 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors cursor-pointer"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+          >
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
       </div>
 
-      {/* MAIN TOP NAV - GRADIENT #005EFF to #F40260 */}
-      <header className="sticky top-0 z-40 bg-gradient-to-r from-[#005EFF] to-[#F40260] text-white shadow-lg shadow-[#005EFF]/15 border-b border-white/20 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center min-w-0" aria-label="International Commodity Summit 2027 - Home">
-            <img
-              src="/logo/logo-full-white.png"
-              alt="International Commodity Summit 2027"
-              className="h-9 min-[380px]:h-10 sm:h-12 w-auto"
-            />
-          </Link>
-
-          {/* Desktop Nav Links (xl+) */}
-          <nav className="hidden xl:flex items-center gap-5 text-sm font-semibold text-white/90">
+      {/* Mobile menu drawer */}
+      {menuOpen && (
+        <div
+          id="mobile-menu"
+          className="xl:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain bg-gradient-to-b from-[#005EFF] via-[#4d0080] to-[#F40260] text-white border-t border-white/20 p-5 sm:p-6 pb-20 shadow-2xl"
+        >
+          <nav className="max-w-md mx-auto flex flex-col gap-1.5">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
-                className={`transition-colors hover:text-white hover:underline underline-offset-4 py-1.5 ${
-                  isActive(link.to) ? 'text-white underline font-bold' : ''
+                onClick={() => setMenuOpen(false)}
+                className={`py-3 px-4 rounded-xl font-heading font-bold text-base min-h-[48px] flex items-center transition-colors ${
+                  isActive(link.to) 
+                    ? 'bg-white/25 text-white font-black' 
+                    : 'text-white/95 hover:bg-white/10 active:bg-white/20'
                 }`}
               >
                 {link.label}
               </Link>
             ))}
+
+            <div className="pt-5 mt-2 border-t border-white/20 flex flex-col gap-3">
+              <a
+                href={SPONSOR_HREF}
+                onClick={() => setMenuOpen(false)}
+                className="w-full text-center py-3.5 rounded-xl font-heading font-bold text-white bg-white/20 border border-white/30 hover:bg-white/30 text-sm active:scale-[0.99] transition-all"
+              >
+                Become a Sponsor
+              </a>
+            </div>
           </nav>
-
-          <div className="flex items-center gap-2 sm:gap-3">
-            <a
-              href={SPONSOR_HREF}
-              className="hidden lg:inline-flex text-xs uppercase tracking-wider text-white font-bold px-3 py-2 rounded-lg bg-white/15 hover:bg-white/25 border border-white/25 transition-all items-center gap-1.5"
-            >
-              <Award className="w-3.5 h-3.5" />
-              <span>Sponsor</span>
-            </a>
-            {/* Mobile hamburger button */}
-            <button
-              type="button"
-              onClick={() => setMenuOpen((open) => !open)}
-              className="xl:hidden shrink-0 p-2 sm:p-2.5 rounded-xl text-white hover:bg-white/15 active:bg-white/25 min-h-[44px] min-w-[44px] flex items-center justify-center transition-colors cursor-pointer"
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
-            >
-              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
         </div>
-
-        {/* Mobile menu drawer */}
-        {menuOpen && (
-          <div
-            id="mobile-menu"
-            className="xl:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-4.5rem)] overflow-y-auto overscroll-contain bg-gradient-to-b from-[#005EFF] via-[#4d0080] to-[#F40260] text-white border-t border-white/20 p-5 sm:p-6 pb-20 shadow-2xl"
-          >
-            <nav className="max-w-md mx-auto flex flex-col gap-1.5">
-              {NAV_LINKS.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  onClick={() => setMenuOpen(false)}
-                  className={`py-3 px-4 rounded-xl font-heading font-bold text-base min-h-[48px] flex items-center transition-colors ${
-                    isActive(link.to) 
-                      ? 'bg-white/25 text-white font-black' 
-                      : 'text-white/95 hover:bg-white/10 active:bg-white/20'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-
-              <div className="pt-5 mt-2 border-t border-white/20 flex flex-col gap-3">
-                <a
-                  href={SPONSOR_HREF}
-                  onClick={() => setMenuOpen(false)}
-                  className="w-full text-center py-3.5 rounded-xl font-heading font-bold text-white bg-white/20 border border-white/30 hover:bg-white/30 text-sm active:scale-[0.99] transition-all"
-                >
-                  Become a Sponsor
-                </a>
-              </div>
-            </nav>
-          </div>
-        )}
-      </header>
-    </>
+      )}
+    </header>
   );
 }
-

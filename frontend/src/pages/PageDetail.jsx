@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, FileText } from 'lucide-react';
 import PostContent from '../components/PostContent';
 import { BACKEND_URL } from '../lib/api';
@@ -11,6 +11,7 @@ export default function PageDetail() {
   const page = loading ? null : result.page;
 
   useEffect(() => {
+    if (slug === 'speakers') return;
     let cancelled = false;
     fetch(`${BACKEND_URL}/api/summit/pages/${encodeURIComponent(slug)}`)
       .then((res) => res.json())
@@ -28,6 +29,10 @@ export default function PageDetail() {
   useEffect(() => {
     if (page) document.title = `${page.title} | International Commodity Summit`;
   }, [page]);
+
+  if (slug === 'speakers') {
+    return <Navigate to="/speakers" replace />;
+  }
 
   if (loading) {
     return <div className="text-slate-500 px-4 py-12 max-w-3xl mx-auto">Loading page...</div>;

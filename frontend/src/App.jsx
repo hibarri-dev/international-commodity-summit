@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import BlogList from './pages/BlogList';
 import PostDetail from './pages/PostDetail';
 import PageDetail from './pages/PageDetail';
+import Speakers from './pages/Speakers';
 import AdminDashboard from './pages/AdminDashboard';
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
       <Routes>
         <Route element={<SiteLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/speakers" element={<Speakers />} />
           <Route path="/posts" element={<BlogList />} />
           <Route path="/post/:slug" element={<PostDetail />} />
           <Route path="/page/:slug" element={<PageDetail />} />

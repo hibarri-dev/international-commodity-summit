@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   ArrowRight, Calendar, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Coffee,
-  Flame, FlaskConical, Landmark, Layers, MapPin, MessageSquare, Ship, Shirt, ShoppingBasket, Sparkles, Users, Wheat, X,
+  Flame, FlaskConical, Landmark, Layers, MapPin, Mic, Ship, Shirt, ShoppingBasket, Sparkles, Wheat, X,
 } from 'lucide-react';
 import galleryJson from '../data/gallery2025.json';
 import { useTrafficTracker } from '../hooks/useTrafficTracker';
@@ -146,10 +146,10 @@ const MEDIA_PARTNERS_2025 = [
 ];
 
 const STATS_2025 = [
-  { value: '1,850+', label: '2025 Attendees' },
+  { value: '450+', label: '2025 Attendees' },
   { value: '45+', label: 'Nations Represented' },
   { value: '$4.2B', label: 'Bilateral Deals' },
-  { value: '120+', label: 'Exhibiting Partners' },
+  { value: '18+', label: 'Sponsors' },
 ];
 
 // Shown first in the gallery (and in the hero strip), in this order.
@@ -247,6 +247,24 @@ const TICKETS = [
     cta: 'Purchase VIP Pass',
     popular: false,
   },
+  {
+    id: 'media',
+    name: 'Media Pass',
+    badge: 'Accredited Press',
+    price: 'Free',
+    priceSubtitle: 'Accredited media & press only • Subject to editorial approval',
+    description: 'Complimentary credentials reserved for verified journalists, editors, and broadcast media delegations.',
+    features: [
+      'Access to all 3 Summit days (Nov 15-17)',
+      'Dedicated Media Workroom & Press Lounge access',
+      'Accredited press briefings & executive interview room',
+      'Daily embargoed press releases & keynote speech transcripts',
+      'Full Expo floor entry & plenary sessions access',
+    ],
+    cta: 'Contact',
+    href: 'mailto:media@internationalcommoditysummit.com?subject=Media%20Pass%20Application%20-%20International%20Commodity%20Summit',
+    popular: false,
+  },
 ];
 
 /* =====================================================================
@@ -291,13 +309,130 @@ function SectionHeader({ eyebrow, title, intro, children }) {
    SECTIONS
    ===================================================================== */
 
+function HeroSlider({ photos }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % photos.length);
+  }, [photos.length]);
+
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + photos.length) % photos.length);
+  }, [photos.length]);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const diff = touchStartX.current - touchEndX.current;
+    if (diff > 40) {
+      nextSlide();
+    } else if (diff < -40) {
+      prevSlide();
+    }
+    touchStartX.current = 0;
+    touchEndX.current = 0;
+  };
+
+  return (
+    <div className="w-full mt-10 sm:mt-16">
+      {/* Mobile Interactive Swipeable Slider (< md) */}
+      <div 
+        className="md:hidden relative w-full touch-pan-y"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="relative overflow-hidden rounded-xl bg-slate-100 aspect-[4/3] shadow-md border border-slate-200/80">
+          <div
+            className="flex transition-transform duration-500 ease-out h-full"
+            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          >
+            {photos.map((photo) => (
+              <div key={photo.src} className="w-full h-full shrink-0 relative">
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={photo.width}
+                  height={photo.height}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Previous / Next Arrow Controls */}
+          <button
+            type="button"
+            onClick={prevSlide}
+            className="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-900/60 hover:bg-slate-900/80 text-white backdrop-blur-sm flex items-center justify-center transition-all cursor-pointer z-10"
+            aria-label="Previous photo"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={nextSlide}
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-slate-900/60 hover:bg-slate-900/80 text-white backdrop-blur-sm flex items-center justify-center transition-all cursor-pointer z-10"
+            aria-label="Next photo"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+
+          {/* Slide Indicator Badge */}
+          <div className="absolute top-2.5 right-2.5 bg-slate-900/70 backdrop-blur-md px-2 py-0.5 rounded-full text-[10px] font-bold text-white z-10">
+            {currentIndex + 1} / {photos.length}
+          </div>
+        </div>
+
+        {/* Swipe Pagination Dots */}
+        <div className="flex items-center justify-center gap-1.5 mt-3">
+          {photos.map((_, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => setCurrentIndex(idx)}
+              className={`h-1.5 rounded-full transition-all cursor-pointer ${
+                currentIndex === idx ? 'w-5 bg-[#005EFF]' : 'w-1.5 bg-slate-300'
+              }`}
+              aria-label={`Go to photo ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop 3-Image Grid (md+) */}
+      <div className="hidden md:grid md:grid-cols-3 gap-4 w-full">
+        {photos.slice(0, 3).map((photo) => (
+          <img
+            key={photo.src}
+            src={photo.src}
+            alt={photo.alt}
+            width={photo.width}
+            height={photo.height}
+            className="w-full aspect-[4/3] object-cover rounded-lg bg-slate-100 shadow-xs hover:opacity-95 transition-opacity"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function HeroSection() {
   const strip = GALLERY_PHOTOS.slice(0, 3);
   return (
     <section id="about" className="relative pt-14 sm:pt-20 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200">
       <div className="max-w-7xl mx-auto flex flex-col items-center text-center">
-        <p className="inline-flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-[#005EFF] mb-6">
-          <Sparkles className="w-4 h-4 text-[#F40260]" />
+        <p className="inline-flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold text-black mb-6">
+          <Sparkles className="w-4 h-4 text-black" />
           {HERO.eyebrow}
         </p>
 
@@ -326,18 +461,7 @@ function HeroSection() {
           <a href={SPONSOR_HREF} className={secondaryButton}>Sponsor</a>
         </div>
 
-        <div className="mt-12 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 w-full">
-          {strip.map((photo, idx) => (
-            <img
-              key={photo.src}
-              src={photo.src}
-              alt={photo.alt}
-              width={photo.width}
-              height={photo.height}
-              className={`w-full aspect-[4/3] object-cover rounded-lg bg-slate-100 ${idx > 0 ? 'hidden md:block' : ''}`}
-            />
-          ))}
-        </div>
+        <HeroSlider photos={strip} />
       </div>
     </section>
   );
@@ -352,14 +476,14 @@ function SectorsSection() {
           title="WHO'S ATTENDING"
           intro="The entire list of macro economic commodity sector participants."
         />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-3.5 sm:gap-x-8 gap-y-6 sm:gap-y-10">
           {SECTORS.map(({ icon: Icon, title, description }) => (
-            <div key={title} className="border-t border-slate-200 pt-6 text-center flex flex-col items-center">
-              <div className="w-12 h-12 rounded-xl bg-blue-50/80 flex items-center justify-center mb-4 text-[#005EFF]">
-                <Icon className="w-6 h-6 text-[#005EFF]" />
+            <div key={title} className="border-t border-slate-200 pt-4 sm:pt-6 text-center flex flex-col items-center">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-50/80 flex items-center justify-center mb-2.5 sm:mb-4 text-[#005EFF]">
+                <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#005EFF]" />
               </div>
-              <h3 className="font-heading font-bold text-lg text-slate-900 mb-2 text-center">{title}</h3>
-              <p className="text-sm text-slate-600 leading-relaxed text-center">{description}</p>
+              <h3 className="font-heading font-bold text-xs min-[400px]:text-sm sm:text-lg text-slate-900 mb-1 sm:mb-2 text-center leading-snug">{title}</h3>
+              <p className="text-[11px] sm:text-sm text-slate-600 leading-relaxed text-center">{description}</p>
             </div>
           ))}
         </div>
@@ -667,7 +791,14 @@ function AgendaSection() {
           })}
         </ol>
 
-        <div className="mt-10 flex justify-center">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <Link
+            to="/speakers"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 transition-colors min-h-[48px]"
+          >
+            <Mic className="w-4 h-4 text-[#F40260]" />
+            View Confirmed Speakers (25+)
+          </Link>
           <a href="#tickets" className={primaryButton}>
             Get your pass
             <ArrowRight className="w-4 h-4" />
@@ -679,362 +810,30 @@ function AgendaSection() {
 }
 
 function AppSection() {
-  const [activeAppTab, setActiveAppTab] = useState('meetings');
-
   return (
-    <section id="app" className={`${sectionClass} bg-slate-50 overflow-hidden`}>
-      <div className="max-w-7xl mx-auto">
-        <SectionHeader
-          eyebrow="Delegate Digital Command Center"
-          title="Event App"
-          intro="Releases 14 days ahead of the event so you can target & connect with relevant decisionmakers!"
-        />
+    <section id="app" className={`${sectionClass} bg-white overflow-hidden`}>
+      <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
+        <h2 className="font-heading font-bold text-3xl sm:text-4xl text-slate-900">
+          Event App
+        </h2>
+        <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          Releases 14 days prior to the event so you can target industries, people and companies you need to connect with!
+        </p>
 
-        {/* Super Clean Interactive Mockup Card */}
-        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden mb-12">
-          {/* Top Header / App Shell */}
-          <div className="bg-slate-900 text-white px-5 sm:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-[#005EFF] to-[#F40260] flex items-center justify-center font-black text-xs text-white shadow-sm">
-                ICS
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-heading font-bold text-sm tracking-tight text-white">ICS New York 2027</span>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-semibold border border-emerald-500/30">
-                    Pre-Summit Live Access
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-400">Meadowlands Exhibition Center • 15 - 17 Nov 2027</p>
-              </div>
-            </div>
-
-            {/* App Tab Switcher */}
-            <div className="flex items-center bg-slate-800/90 p-1 rounded-xl text-xs font-semibold">
-              <button
-                type="button"
-                onClick={() => setActiveAppTab('meetings')}
-                className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
-                  activeAppTab === 'meetings'
-                    ? 'bg-gradient-to-r from-[#005EFF] to-[#F40260] text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                Bilateral Meetings (4)
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveAppTab('calendar')}
-                className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
-                  activeAppTab === 'calendar'
-                    ? 'bg-gradient-to-r from-[#005EFF] to-[#F40260] text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                My Calendar
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveAppTab('network')}
-                className={`px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
-                  activeAppTab === 'network'
-                    ? 'bg-gradient-to-r from-[#005EFF] to-[#F40260] text-white shadow-sm'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                Decisionmakers (3,500+)
-              </button>
-            </div>
-          </div>
-
-          {/* Tab 1: Confirmed Bilateral Meetings */}
-          {activeAppTab === 'meetings' && (
-            <div className="p-6 sm:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
-                <div>
-                  <h3 className="font-heading font-bold text-lg text-slate-900">Confirmed 1-on-1 Bilateral Deal Rooms</h3>
-                  <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Pre-arranged 20-minute private executive meetings for Day 1 & Day 2.</p>
-                </div>
-                <span className="self-start sm:self-center text-xs font-semibold text-[#005EFF] bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100">
-                  4 Confirmed Bilateral Meetings
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Meeting 1: Honeywell */}
-                <div className="border border-slate-200/90 rounded-xl p-4 sm:p-5 bg-white hover:border-[#005EFF]/40 transition-colors shadow-xs">
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-24 bg-slate-50 rounded-lg p-1.5 border border-slate-100 flex items-center justify-center">
-                        <img src="/brands-2025/honeywell.png" alt="Honeywell" className="max-h-6 max-w-full object-contain" />
-                      </div>
-                      <div>
-                        <div className="font-heading font-bold text-sm text-slate-900">Honeywell International</div>
-                        <div className="text-xs text-slate-500">VP Procurement & Industrial Materials</div>
-                      </div>
-                    </div>
-                    <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
-                      Confirmed
-                    </span>
-                  </div>
-                  <div className="text-xs text-slate-600 bg-slate-50/80 rounded-lg p-2.5 flex items-center justify-between">
-                    <span className="font-semibold text-slate-900">Nov 15 • 10:30 – 10:50 AM</span>
-                    <span className="text-[#005EFF] font-medium">Bilateral Table B-04 (VIP Lounge)</span>
-                  </div>
-                </div>
-
-                {/* Meeting 2: S&P Global */}
-                <div className="border border-slate-200/90 rounded-xl p-4 sm:p-5 bg-white hover:border-[#005EFF]/40 transition-colors shadow-xs">
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-24 bg-slate-50 rounded-lg p-1.5 border border-slate-100 flex items-center justify-center">
-                        <img src="/brands-2025/sp-global.png" alt="S&P Global" className="max-h-6 max-w-full object-contain" />
-                      </div>
-                      <div>
-                        <div className="font-heading font-bold text-sm text-slate-900">S&P Global Commodity Insights</div>
-                        <div className="text-xs text-slate-500">Global Head of Energy & Metals Pricing</div>
-                      </div>
-                    </div>
-                    <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
-                      Confirmed
-                    </span>
-                  </div>
-                  <div className="text-xs text-slate-600 bg-slate-50/80 rounded-lg p-2.5 flex items-center justify-between">
-                    <span className="font-semibold text-slate-900">Nov 15 • 01:15 – 01:35 PM</span>
-                    <span className="text-[#005EFF] font-medium">Bilateral Suite C-01 (Mezzanine)</span>
-                  </div>
-                </div>
-
-                {/* Meeting 3: McKinsey & Company */}
-                <div className="border border-slate-200/90 rounded-xl p-4 sm:p-5 bg-white hover:border-[#005EFF]/40 transition-colors shadow-xs">
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-24 bg-slate-50 rounded-lg p-1.5 border border-slate-100 flex items-center justify-center">
-                        <img src="/brands-2025/mckinsey.png" alt="McKinsey & Company" className="max-h-6 max-w-full object-contain" />
-                      </div>
-                      <div>
-                        <div className="font-heading font-bold text-sm text-slate-900">McKinsey & Company</div>
-                        <div className="text-xs text-slate-500">Partner, Global Energy & Materials Practice</div>
-                      </div>
-                    </div>
-                    <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
-                      Confirmed
-                    </span>
-                  </div>
-                  <div className="text-xs text-slate-600 bg-slate-50/80 rounded-lg p-2.5 flex items-center justify-between">
-                    <span className="font-semibold text-slate-900">Nov 16 • 09:30 – 09:50 AM</span>
-                    <span className="text-[#005EFF] font-medium">Boardroom A (Executive Hall)</span>
-                  </div>
-                </div>
-
-                {/* Meeting 4: Maersk */}
-                <div className="border border-slate-200/90 rounded-xl p-4 sm:p-5 bg-white hover:border-[#005EFF]/40 transition-colors shadow-xs">
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-24 bg-slate-50 rounded-lg p-1.5 border border-slate-100 flex items-center justify-center">
-                        <img src="/brands-2025/f8420-maersk.png" alt="Maersk" className="max-h-6 max-w-full object-contain" />
-                      </div>
-                      <div>
-                        <div className="font-heading font-bold text-sm text-slate-900">A.P. Moller - Maersk</div>
-                        <div className="text-xs text-slate-500">Director of Global Commodity Freight</div>
-                      </div>
-                    </div>
-                    <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
-                      Confirmed
-                    </span>
-                  </div>
-                  <div className="text-xs text-slate-600 bg-slate-50/80 rounded-lg p-2.5 flex items-center justify-between">
-                    <span className="font-semibold text-slate-900">Nov 16 • 02:15 – 02:35 PM</span>
-                    <span className="text-[#005EFF] font-medium">Bilateral Table D-12 (Logistics Hub)</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Tab 2: Summit Calendar */}
-          {activeAppTab === 'calendar' && (
-            <div className="p-6 sm:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
-                <div>
-                  <h3 className="font-heading font-bold text-lg text-slate-900">Personalized Delegate Itinerary</h3>
-                  <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Synchronized with official plenary sessions and reserved bilateral meetings.</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-md bg-slate-100 text-xs font-semibold text-slate-700">Nov 15 (Day 1)</span>
-                  <span className="px-2.5 py-1 rounded-md text-xs font-semibold text-slate-400">Nov 16 (Day 2)</span>
-                  <span className="px-2.5 py-1 rounded-md text-xs font-semibold text-slate-400">Nov 17 (Day 3)</span>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div className="border border-slate-200/80 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-[#005EFF] w-24">08:00 – 09:00 AM</span>
-                    <div>
-                      <div className="font-heading font-bold text-sm text-slate-900">Coffee & Breakfast Networking Reception</div>
-                      <div className="text-xs text-slate-500">Exhibition Floor Networking Hub</div>
-                    </div>
-                  </div>
-                  <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded self-start sm:self-center">Networking</span>
-                </div>
-
-                <div className="border border-blue-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-blue-50/40">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-[#005EFF] w-24">09:00 – 10:00 AM</span>
-                    <div>
-                      <div className="font-heading font-bold text-sm text-slate-900">Rare Earths, Critical Minerals & Commodities of the Future</div>
-                      <div className="text-xs text-slate-500">Plenary Stage A • Keynote Session</div>
-                    </div>
-                  </div>
-                  <span className="text-xs font-semibold text-[#005EFF] bg-blue-100/70 px-2.5 py-1 rounded self-start sm:self-center">Keynote Plenary</span>
-                </div>
-
-                <div className="border border-pink-200 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-pink-50/30">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-[#F40260] w-24">10:30 – 10:50 AM</span>
-                    <div>
-                      <div className="font-heading font-bold text-sm text-slate-900">1-on-1 Bilateral Meeting: Honeywell International</div>
-                      <div className="text-xs text-slate-500">VIP Deal Room B-04 • Subject: Critical Reagents & Hydrocarbons</div>
-                    </div>
-                  </div>
-                  <span className="text-xs font-semibold text-[#F40260] bg-pink-100/70 px-2.5 py-1 rounded self-start sm:self-center">Private Bilateral</span>
-                </div>
-
-                <div className="border border-slate-200/80 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold text-[#005EFF] w-24">01:00 – 02:00 PM</span>
-                    <div>
-                      <div className="font-heading font-bold text-sm text-slate-900">Defence Tech Mining & Metals Requirements & Chemicals</div>
-                      <div className="text-xs text-slate-500">Track Hall 2 • Strategic Supply Chains</div>
-                    </div>
-                  </div>
-                  <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded self-start sm:self-center">Track Session</span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Tab 3: Decisionmaker Directory */}
-          {activeAppTab === 'network' && (
-            <div className="p-6 sm:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
-                <div>
-                  <h3 className="font-heading font-bold text-lg text-slate-900">Verified Decisionmakers & Delegates</h3>
-                  <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Filter by macro sector and initiate bilateral introductions directly.</p>
-                </div>
-                <div className="text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-lg flex items-center gap-2">
-                  <span>Directory:</span>
-                  <span className="text-slate-900 font-semibold">3,500+ Registered Executives</span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* Executive 1: Honeywell */}
-                <div className="border border-slate-200 rounded-xl p-4 bg-white flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#005EFF] bg-blue-50 px-2 py-0.5 rounded">Chemicals & Tech</span>
-                      <span className="w-2 h-2 rounded-full bg-emerald-500" title="Active on Platform" />
-                    </div>
-                    <div className="font-heading font-bold text-sm text-slate-900">David Vance</div>
-                    <div className="text-xs text-slate-600 font-medium">VP Global Supply Chain</div>
-                    <div className="text-[11px] text-slate-400 mt-1">Honeywell International</div>
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-[11px] text-slate-500">New York Delegation</span>
-                    <span className="text-xs font-semibold text-[#005EFF] hover:underline cursor-pointer">Request 1-on-1</span>
-                  </div>
-                </div>
-
-                {/* Executive 2: Rand Merchant Bank */}
-                <div className="border border-slate-200 rounded-xl p-4 bg-white flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#005EFF] bg-blue-50 px-2 py-0.5 rounded">Structured Finance</span>
-                      <span className="w-2 h-2 rounded-full bg-emerald-500" title="Active on Platform" />
-                    </div>
-                    <div className="font-heading font-bold text-sm text-slate-900">Sipho Khumalo</div>
-                    <div className="text-xs text-slate-600 font-medium">Head of Commodity Derivatives</div>
-                    <div className="text-[11px] text-slate-400 mt-1">Rand Merchant Bank (RMB)</div>
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-[11px] text-slate-500">Johannesburg / NY</span>
-                    <span className="text-xs font-semibold text-[#005EFF] hover:underline cursor-pointer">Request 1-on-1</span>
-                  </div>
-                </div>
-
-                {/* Executive 3: Microsoft */}
-                <div className="border border-slate-200 rounded-xl p-4 bg-white flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#005EFF] bg-blue-50 px-2 py-0.5 rounded">Energy Transition</span>
-                      <span className="w-2 h-2 rounded-full bg-emerald-500" title="Active on Platform" />
-                    </div>
-                    <div className="font-heading font-bold text-sm text-slate-900">Elena Rostova</div>
-                    <div className="text-xs text-slate-600 font-medium">Director of Clean Power Infrastructure</div>
-                    <div className="text-[11px] text-slate-400 mt-1">Microsoft Energy & Datacenters</div>
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-[11px] text-slate-500">Global Infrastructure</span>
-                    <span className="text-xs font-semibold text-[#005EFF] hover:underline cursor-pointer">Request 1-on-1</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* 4 Clean Feature Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-          <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-xs flex flex-col items-center">
-            <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-[#005EFF] mb-4">
-              <Users className="w-6 h-6" />
-            </div>
-            <h4 className="font-heading font-bold text-base text-slate-900 mb-2">Bilateral Dealmaker</h4>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Filter by physical commodity (Energy, Metals, Agri, Chemicals, Finance) and reserve 20-min bilateral tables.
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-xs flex flex-col items-center">
-            <div className="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center text-[#F40260] mb-4">
-              <Calendar className="w-6 h-6" />
-            </div>
-            <h4 className="font-heading font-bold text-base text-slate-900 mb-2">Live Summit Calendar</h4>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Personalize your 3-day plenary schedule with instant calendar exports to Apple, Google, and Outlook.
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-xs flex flex-col items-center">
-            <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-[#005EFF] mb-4">
-              <MessageSquare className="w-6 h-6" />
-            </div>
-            <h4 className="font-heading font-bold text-base text-slate-900 mb-2">Decisionmaker Messaging</h4>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Direct in-app messaging with verified C-suite leaders, mining heads, energy producers, and institutional desks.
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-xs flex flex-col items-center">
-            <div className="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center text-[#F40260] mb-4">
-              <Sparkles className="w-6 h-6" />
-            </div>
-            <h4 className="font-heading font-bold text-base text-slate-900 mb-2">NFC Fast-Track Pass</h4>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Zero-wait touchless NFC badge issuance at the Meadowlands East Entrance for immediate summit access.
-            </p>
+        <div className="mt-8 sm:mt-10 flex justify-center">
+          <div className="w-full max-w-[280px] min-[390px]:max-w-[320px] sm:max-w-[360px] md:max-w-[390px] mx-auto">
+            <img
+              src="/images/event-app-phone.jpg"
+              alt="International Commodity Summit Event App"
+              className="w-full h-auto object-contain mx-auto"
+              loading="lazy"
+            />
           </div>
         </div>
 
-        {/* Centered Bottom CTA */}
-        <div className="mt-10 text-center flex flex-col items-center">
-          <p className="text-xs sm:text-sm text-slate-500 mb-4 max-w-xl text-center">
-            All Access Pass and VIP Executive Passholders automatically receive login activation 14 days before summit kickoff.
-          </p>
+        <div className="mt-8 sm:mt-10 flex justify-center">
           <a href="#tickets" className={primaryButton}>
-            Explore Summit Passes
+            Get your pass
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>
@@ -1050,10 +849,10 @@ function TicketsSection({ onSelectTicket }) {
         <SectionHeader
           eyebrow="Official Conference Registration"
           title="Select Your Summit Pass"
-          intro="Official conference passes for delegates, institutional investors, trading desks, and executive delegations."
+          intro="Official conference passes for delegates, institutional investors, trading desks, executive delegations, and accredited media."
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {TICKETS.map((t) => (
             <div
               key={t.id}
@@ -1070,7 +869,9 @@ function TicketsSection({ onSelectTicket }) {
 
                 <div className="mt-6">
                   <span className="font-heading font-bold text-4xl sm:text-5xl text-slate-900 tracking-tight">{t.price}</span>
-                  <span className="block mt-1 text-xs text-slate-500">Per delegate • All 3 days inclusive • New York</span>
+                  <span className="block mt-1 text-xs text-slate-500">
+                    {t.priceSubtitle || 'Per delegate • All 3 days inclusive • New York'}
+                  </span>
                 </div>
               </div>
 
@@ -1083,17 +884,26 @@ function TicketsSection({ onSelectTicket }) {
                 ))}
               </ul>
 
-              <button
-                type="button"
-                onClick={() => onSelectTicket(t)}
-                className={`mt-8 w-full cursor-pointer ${
-                  t.popular
-                    ? primaryButton
-                    : 'inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 transition-colors min-h-[48px]'
-                }`}
-              >
-                {t.cta}
-              </button>
+              {t.href ? (
+                <a
+                  href={t.href}
+                  className="mt-8 w-full inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 transition-colors min-h-[48px] text-center"
+                >
+                  {t.cta}
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => onSelectTicket(t)}
+                  className={`mt-8 w-full cursor-pointer ${
+                    t.popular
+                      ? primaryButton
+                      : 'inline-flex items-center justify-center px-6 py-3 rounded-md text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 transition-colors min-h-[48px]'
+                  }`}
+                >
+                  {t.cta}
+                </button>
+              )}
             </div>
           ))}
         </div>
