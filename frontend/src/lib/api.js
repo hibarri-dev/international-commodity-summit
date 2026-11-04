@@ -1,4 +1,10 @@
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
+const PRODUCTION_BACKEND_URL = 'https://api.hibarri.com';
+const LOCAL_BACKEND_URL = 'http://localhost:5001';
+
+// Deployed builds talk to the live API even if Vercel has no VITE_BACKEND_URL set.
+export const BACKEND_URL = (
+  import.meta.env.VITE_BACKEND_URL || (import.meta.env.DEV ? LOCAL_BACKEND_URL : PRODUCTION_BACKEND_URL)
+).replace(/\/+$/, '');
 
 export const ADMIN_TOKEN_KEY = 'ics_admin_token';
 export const ATTENDEE_TOKEN_KEY = 'ics_attendee_token';
