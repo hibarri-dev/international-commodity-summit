@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import galleryJson from '../data/gallery2025.json';
 import { useTrafficTracker } from '../hooks/useTrafficTracker';
+import { BACKEND_URL } from '../lib/api';
 
 /* =====================================================================
    EDITABLE CONTENT
@@ -861,7 +862,7 @@ function AppSection() {
   );
 }
 
-function TicketsSection({ onSelectTicket }) {
+function TicketsSection({ tickets = TICKETS, onSelectTicket }) {
   return (
     <section id="tickets" className={`${sectionClass} bg-slate-50`}>
       <div className="max-w-7xl mx-auto">
@@ -871,9 +872,9 @@ function TicketsSection({ onSelectTicket }) {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {TICKETS.map((t) => (
+          {tickets.map((t) => (
             <div
-              key={t.id}
+              key={t._id || t.id || t.slug}
               className={`bg-white rounded-xl p-6 sm:p-7 flex flex-col shadow-xs ${
                 t.popular ? 'border-2 border-[#005EFF]' : 'border border-slate-200'
               }`}
@@ -893,7 +894,7 @@ function TicketsSection({ onSelectTicket }) {
               </div>
 
               <ul className="mt-5 space-y-2.5 flex-1">
-                {t.features.map((feat) => (
+                {(t.features || []).map((feat) => (
                   <li key={feat} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-700 leading-snug">
                     <CheckCircle2 className="w-4 h-4 text-[#005EFF] shrink-0 mt-0.5" />
                     <span>{feat}</span>
@@ -901,9 +902,9 @@ function TicketsSection({ onSelectTicket }) {
                 ))}
               </ul>
 
-              {t.href ? (
+              {(t.ctaType === 'mailto' || t.ctaType === 'external' || t.href || t.externalHref) ? (
                 <a
-                  href={t.href}
+                  href={t.externalHref || t.href}
                   className="mt-6 w-full inline-flex items-center justify-center px-6 py-3 rounded-xl text-xs uppercase tracking-wider font-bold text-white bg-slate-900 hover:bg-slate-800 transition-colors min-h-[44px] text-center"
                 >
                   {t.cta}
@@ -989,6 +990,15 @@ const inputClass =
   'w-full px-3.5 py-2.5 rounded-md bg-white border border-slate-300 text-slate-900 placeholder-slate-400 text-base sm:text-sm focus:outline-none focus:border-[#005EFF]';
 
 function TicketModal({ ticket, onClose }) {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [company, setCompany] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [phone, setPhone] = useState('');
+  const [website, setWebsite] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [submitted, setSubmitted] = useState(false);
   useEffect(() => {
     if (!ticket) return undefined;
     const onKey = (e) => e.key === 'Escape' && onClose();
@@ -1003,10 +1013,50 @@ function TicketModal({ ticket, onClose }) {
 
   if (!ticket) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Registration reserved for ${ticket.name}! Confirmation details have been emailed.`);
-    onClose();
+    if (!fullName.trim() || !email.trim() || !company.trim()) {
+      setError('Please fill in all required fields (Full Name, Corporate Email, Company).');
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      setError('');
+
+      const payload = {
+        fullName: fullName.trim(),
+        email: email.trim(),
+        company: company.trim(),
+        jobTitle: jobTitle.trim(),
+        phone: phone.trim(),
+        packageId: ticket._id || undefined,
+        packageName: ticket.name,
+        packagePrice: ticket.price,
+        visitorId: localStorage.getItem('ics_vid') || '',
+        sessionId: sessionStorage.getItem('ics_sid') || '',
+        referrer: document.referrer || '',
+        website,
+      };
+
+      const res = await fetch(`${BACKEND_URL}/api/summit/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.success === false) {
+        throw new Error(data.message || 'Registration request could not be processed. Please try again.');
+      }
+
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.message || 'Failed to submit registration. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+
   };
 
   return (
@@ -1030,28 +1080,74 @@ function TicketModal({ ticket, onClose }) {
           <X className="w-5 h-5" />
         </button>
 
-        <p className="text-xs font-semibold uppercase tracking-wider text-[#F40260]">Confirm Delegate Pass</p>
-        <h2 id="ticket-modal-title" className="font-heading font-bold text-2xl text-slate-900 mt-1 mb-1 pr-8">{ticket.name}</h2>
-        <p className="font-heading font-bold text-3xl text-slate-900">{ticket.price}</p>
-        <p className="mt-2 mb-6 text-xs text-slate-500">{EVENT.venue}, New York • {EVENT.dates}</p>
+        {submitted ? (
+          <div className="py-4 text-center space-y-4">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-100 text-[#005EFF]">
+              <CheckCircle2 className="h-8 w-8 text-emerald-600" />
+            </div>
+            <h2 className="font-heading font-bold text-2xl text-slate-900">
+              Registration Received!
+            </h2>
+            <p className="text-sm text-slate-600 leading-relaxed">
+              Thank you, <strong className="text-slate-900">{fullName}</strong>. Your delegate reservation request for the <strong className="text-slate-900">{ticket.name}</strong> ({ticket.price}) has been securely saved.
+            </p>
+            <p className="text-xs text-slate-500">
+              Our delegation coordinator will review your credentials and email official confirmation to <span className="font-medium text-slate-700">{email}</span>.
+            </p>
+            <button
+              type="button"
+              onClick={onClose}
+              className={`${primaryButton} w-full mt-4 cursor-pointer`}
+            >
+              Done
+            </button>
+          </div>
+        ) : (
+          <>
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#005EFF]">Confirm Delegate Pass</p>
+            <h2 id="ticket-modal-title" className="font-heading font-bold text-2xl text-slate-900 mt-1 mb-1 pr-8">{ticket.name}</h2>
+            <p className="font-heading font-bold text-3xl text-slate-900">{ticket.price}</p>
+            <p className="mt-2 mb-6 text-xs text-slate-500">{EVENT.venue}, New York • {EVENT.dates}</p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="ticket-name" className="block text-xs font-semibold text-slate-700 mb-1">Full Name</label>
-            <input id="ticket-name" required type="text" autoComplete="name" placeholder="e.g. Clayton Vance" className={inputClass} />
-          </div>
-          <div>
-            <label htmlFor="ticket-email" className="block text-xs font-semibold text-slate-700 mb-1">Corporate Email</label>
-            <input id="ticket-email" required type="email" autoComplete="email" inputMode="email" placeholder="name@company.com" className={inputClass} />
-          </div>
-          <div>
-            <label htmlFor="ticket-company" className="block text-xs font-semibold text-slate-700 mb-1">Company / Organization</label>
-            <input id="ticket-company" required type="text" autoComplete="organization" placeholder="e.g. Global Commodities Ltd" className={inputClass} />
-          </div>
-          <button type="submit" className={`${primaryButton} w-full mt-4 cursor-pointer`}>
-            Proceed to Registration ({ticket.price})
-          </button>
-        </form>
+            {error && (
+              <div className="mb-4 rounded-xl bg-red-50 p-3 text-xs text-red-700 border border-red-200">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-3.5">
+              <div>
+                <label htmlFor="ticket-name" className="block text-xs font-semibold text-slate-700 mb-1">Full Name *</label>
+                <input id="ticket-name" required type="text" autoComplete="name" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="e.g. Clayton Vance" className={inputClass} />
+              </div>
+              <div>
+                <label htmlFor="ticket-email" className="block text-xs font-semibold text-slate-700 mb-1">Corporate Email *</label>
+                <input id="ticket-email" required type="email" autoComplete="email" inputMode="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@company.com" className={inputClass} />
+              </div>
+              <div>
+                <label htmlFor="ticket-company" className="block text-xs font-semibold text-slate-700 mb-1">Company / Organization *</label>
+                <input id="ticket-company" required type="text" autoComplete="organization" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="e.g. Global Commodities Ltd" className={inputClass} />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label htmlFor="ticket-job" className="block text-xs font-semibold text-slate-700 mb-1">Job Title</label>
+                  <input id="ticket-job" type="text" autoComplete="organization-title" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} placeholder="e.g. Managing Director" className={inputClass} />
+                </div>
+                <div>
+                  <label htmlFor="ticket-phone" className="block text-xs font-semibold text-slate-700 mb-1">Phone Number</label>
+                  <input id="ticket-phone" type="tel" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+1 (555) 000-0000" className={inputClass} />
+                </div>
+              </div>
+              <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+                <label htmlFor="ticket-website">Website</label>
+                <input id="ticket-website" type="text" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
+              </div>
+              <button type="submit" disabled={submitting} data-track="ticket-submit" className={`${primaryButton} w-full mt-4 cursor-pointer disabled:opacity-60`}>
+                {submitting ? 'Submitting...' : `Proceed to Registration (${ticket.price})`}
+              </button>
+            </form>
+          </>
+        )}
       </div>
     </div>
   );
@@ -1063,7 +1159,23 @@ function TicketModal({ ticket, onClose }) {
 
 export default function Home() {
   useTrafficTracker();
+  const [tickets, setTickets] = useState(TICKETS);
   const [selectedTicket, setSelectedTicket] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`${BACKEND_URL}/api/summit/packages`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled && data.success && Array.isArray(data.data) && data.data.length > 0) {
+          setTickets(data.data);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <>
@@ -1074,11 +1186,15 @@ export default function Home() {
         <GallerySection />
         <AgendaSection />
         <AppSection />
-        <TicketsSection onSelectTicket={setSelectedTicket} />
+        <TicketsSection tickets={tickets} onSelectTicket={setSelectedTicket} />
         <SignupSection />
       </main>
 
-      <TicketModal ticket={selectedTicket} onClose={() => setSelectedTicket(null)} />
+      <TicketModal
+        key={selectedTicket ? selectedTicket._id || selectedTicket.id || selectedTicket.slug : 'none'}
+        ticket={selectedTicket}
+        onClose={() => setSelectedTicket(null)}
+      />
     </>
   );
 }
