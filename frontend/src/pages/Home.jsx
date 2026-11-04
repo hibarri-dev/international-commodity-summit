@@ -5,8 +5,9 @@ import {
   Flame, FlaskConical, Landmark, Layers, MapPin, Ship, Shirt, ShoppingBasket, Sparkles, Wheat, X,
 } from 'lucide-react';
 import galleryJson from '../data/gallery2025.json';
-import { useTrafficTracker } from '../hooks/useTrafficTracker';
-import { BACKEND_URL } from '../lib/api';
+import YouTubeEmbed from '../components/YouTubeEmbed';
+import Seo from '../components/Seo';
+import { publicApi } from '../lib/api';
 
 /* =====================================================================
    EDITABLE CONTENT
@@ -497,8 +498,8 @@ function SectorsSection() {
       <div className="max-w-7xl mx-auto">
         <SectionHeader
           eyebrow="Sectors Attending"
-          title="WHO'S ATTENDING"
-          intro="The entire list of macro economic commodity sector participants."
+          title="Powering the 4th Industrial Revolution"
+          intro="The entire list of macro economic commodity sector participants powering the hype behind superintelligence, robotics, datacenters, space, and the evolution of mankind."
         />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-3.5 sm:gap-x-8 gap-y-6 sm:gap-y-10">
           {SECTORS.map(({ icon: Icon, title, description }) => (
@@ -685,7 +686,7 @@ function GallerySection() {
       <div className="max-w-7xl mx-auto">
         <SectionHeader
           eyebrow="2025 Photo Library"
-          title="Highlights from the 2025 Summit"
+          title="10x Bigger than before!"
           intro="Look back at the inaugural edition of the International Commodity Summit, setting the benchmark for our upcoming 2027 New York edition."
         />
 
@@ -935,6 +936,16 @@ function TicketsSection({ tickets = TICKETS, onSelectTicket }) {
             {EVENT.registrationEmail}
           </a>
         </p>
+
+        <div className="mt-12 sm:mt-16 max-w-4xl mx-auto">
+          <h3 className="font-heading font-bold text-xl sm:text-2xl text-slate-900 text-center">
+            Relive the 2025 Summit
+          </h3>
+          <p className="mt-1 mb-5 text-sm text-slate-500 text-center">
+            Highlights from the International Commodity Summit 2025.
+          </p>
+          <YouTubeEmbed videoId="cx34Omd1Amg" title="International Commodity Summit 2025 Highlights" />
+        </div>
       </div>
     </section>
   );
@@ -1039,23 +1050,16 @@ function TicketModal({ ticket, onClose }) {
         website,
       };
 
-      const res = await fetch(`${BACKEND_URL}/api/summit/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || data.success === false) {
-        throw new Error(data.message || 'Registration request could not be processed. Please try again.');
+      const res = await publicApi.register(payload);
+      if (res.data?.checkoutUrl) {
+        window.location.assign(res.data.checkoutUrl);
+        return;
       }
-
       setSubmitted(true);
     } catch (err) {
       setError(err.message || 'Failed to submit registration. Please try again.');
-    } finally {
-      setSubmitting(false);
     }
+    setSubmitting(false);
 
   };
 
@@ -1143,8 +1147,15 @@ function TicketModal({ ticket, onClose }) {
                 <input id="ticket-website" type="text" tabIndex={-1} autoComplete="off" value={website} onChange={(e) => setWebsite(e.target.value)} />
               </div>
               <button type="submit" disabled={submitting} data-track="ticket-submit" className={`${primaryButton} w-full mt-4 cursor-pointer disabled:opacity-60`}>
-                {submitting ? 'Submitting...' : `Proceed to Registration (${ticket.price})`}
+                {submitting
+                  ? ticket.payOnline ? 'Opening secure payment...' : 'Submitting...'
+                  : ticket.payOnline ? `Continue to Payment (${ticket.price})` : `Proceed to Registration (${ticket.price})`}
               </button>
+              {ticket.payOnline && (
+                <p className="text-center text-[11px] text-slate-500">
+                  Your details are saved first. You'll pay securely by card on Stripe, then receive your login by email.
+                </p>
+              )}
             </form>
           </>
         )}
@@ -1158,16 +1169,15 @@ function TicketModal({ ticket, onClose }) {
    ===================================================================== */
 
 export default function Home() {
-  useTrafficTracker();
   const [tickets, setTickets] = useState(TICKETS);
   const [selectedTicket, setSelectedTicket] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`${BACKEND_URL}/api/summit/packages`)
-      .then((res) => res.json())
+    publicApi
+      .getPackages()
       .then((data) => {
-        if (!cancelled && data.success && Array.isArray(data.data) && data.data.length > 0) {
+        if (!cancelled && Array.isArray(data.data) && data.data.length > 0) {
           setTickets(data.data);
         }
       })
@@ -1179,6 +1189,11 @@ export default function Home() {
 
   return (
     <>
+      <Seo
+        title="International Commodity Summit 2027 | Meadowlands New York"
+        description="International Commodity Summit (ICS) - 15 to 17 November 2027 at Meadowlands Exhibition Center, New York. Bringing together global commodity traders, finance, energy, and agriculture."
+        path="/"
+      />
       <main className="relative bg-white">
         <HeroSection />
         <SectorsSection />

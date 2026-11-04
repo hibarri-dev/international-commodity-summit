@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, FileText } from 'lucide-react';
 import PostContent from '../components/PostContent';
-import { BACKEND_URL } from '../lib/api';
+import { publicApi } from '../lib/api';
+import Seo from '../components/Seo';
 
 export default function PageDetail() {
   const { slug } = useParams();
@@ -13,10 +14,10 @@ export default function PageDetail() {
   useEffect(() => {
     if (slug === 'speakers') return;
     let cancelled = false;
-    fetch(`${BACKEND_URL}/api/summit/pages/${encodeURIComponent(slug)}`)
-      .then((res) => res.json())
+    publicApi
+      .getPage(slug)
       .then((res) => {
-        if (!cancelled) setResult({ slug, page: res.success ? res.data : null });
+        if (!cancelled) setResult({ slug, page: res.data });
       })
       .catch(() => {
         if (!cancelled) setResult({ slug, page: null });
@@ -25,10 +26,6 @@ export default function PageDetail() {
       cancelled = true;
     };
   }, [slug]);
-
-  useEffect(() => {
-    if (page) document.title = `${page.title} | International Commodity Summit`;
-  }, [page]);
 
   if (slug === 'speakers') {
     return <Navigate to="/speakers" replace />;
@@ -51,6 +48,11 @@ export default function PageDetail() {
 
   return (
     <div className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 bg-white min-h-[70vh]">
+      <Seo
+        title={`${page.title} | International Commodity Summit`}
+        description={page.metaDescription || undefined}
+        path={`/page/${page.slug}`}
+      />
       <div className="max-w-3xl mx-auto">
         <Link 
           to="/" 

@@ -15,7 +15,7 @@ import {
   LoaderCircle,
 } from 'lucide-react';
 import PostEditor from '../components/admin/PostEditor';
-import { BACKEND_URL, ADMIN_TOKEN_KEY, adminRequest } from '../lib/api';
+import { ADMIN_TOKEN_KEY, adminApi } from '../lib/api';
 
 export default function AdminDashboard() {
   const [token, setToken] = useState(() => localStorage.getItem(ADMIN_TOKEN_KEY) || '');
@@ -32,7 +32,7 @@ export default function AdminDashboard() {
   const [postSearch, setPostSearch] = useState('');
 
   const handleLogout = useCallback(() => {
-    fetch(`${BACKEND_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' }).catch(() => {});
+    adminApi.logout();
     localStorage.removeItem(ADMIN_TOKEN_KEY);
     setToken('');
     setEditingPost(undefined);
@@ -45,9 +45,9 @@ export default function AdminDashboard() {
 
   const loadDashboardData = useCallback(async () => {
     const results = await Promise.allSettled([
-      adminRequest('/api/admin/summit/overview', { token }),
-      adminRequest('/api/admin/summit/traffic', { token }),
-      adminRequest('/api/admin/summit/posts', { token }),
+      adminApi.getOverview(token),
+      adminApi.getTraffic(token),
+      adminApi.getPosts(token),
     ]);
     if (results.some((r) => r.status === 'rejected' && r.reason?.status === 401)) {
       handleLogout();
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
   const openPost = async (id) => {
     setOpeningPostId(id);
     try {
-      const { data } = await adminRequest(`/api/admin/summit/posts/${id}`, { token });
+      const { data } = await adminApi.getPost(id, token);
       setEditingPost(data);
     } catch (err) {
       if (err.status === 401) handleAuthError();
@@ -85,29 +85,23 @@ export default function AdminDashboard() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ email: email.trim(), password: password.trim() }),
-      });
-      const data = await res.json();
-      if (res.ok && (data.token || data.user)) {
+      const data = await adminApi.login(email.trim(), password.trim());
+      if (data.token || data.user) {
         const receivedToken = data.token || 'logged_in';
         localStorage.setItem(ADMIN_TOKEN_KEY, receivedToken);
         setToken(receivedToken);
       } else {
-        alert(data.message || 'Login failed: Invalid credentials');
+        alert('Login failed: Invalid credentials');
       }
-    } catch {
-      alert('Could not connect to backend authentication');
+    } catch (err) {
+      alert(err.status ? err.message : 'Could not connect to backend authentication');
     }
   };
 
   const handleDeletePost = async (post) => {
     if (!confirm(`Delete "${post.title}"? This cannot be undone.`)) return;
     try {
-      await adminRequest(`/api/admin/summit/posts/${post._id}`, { method: 'DELETE', token });
+      await adminApi.deletePost(post._id, token);
       loadDashboardData();
     } catch (err) {
       if (err.status === 401) handleAuthError();

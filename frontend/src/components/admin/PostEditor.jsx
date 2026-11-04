@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowLeft, ExternalLink, ImagePlus, LoaderCircle, Save, Send, Trash2, CircleCheck } from 'lucide-react';
 import RichTextEditor from './RichTextEditor';
-import { adminRequest, uploadAdminImage } from '../../lib/api';
+import { adminApi } from '../../lib/api';
 
 const inputClass =
   'w-full px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-[#7a2fd6]';
@@ -63,7 +63,7 @@ export default function PostEditor({ post, token, onSaved, onClose, onAuthError 
 
   const uploadImage = async (file) => {
     try {
-      return await uploadAdminImage(file, token);
+      return await adminApi.uploadImage(file, token);
     } catch (err) {
       if (err.status === 401) onAuthError();
       throw err;
@@ -100,8 +100,8 @@ export default function PostEditor({ post, token, onSaved, onClose, onAuthError 
         publishedAt: next.publishedAt ? new Date(next.publishedAt).toISOString() : null,
       };
       const { data } = postId
-        ? await adminRequest(`/api/admin/summit/posts/${postId}`, { method: 'PATCH', body, token })
-        : await adminRequest('/api/admin/summit/posts', { method: 'POST', body, token });
+        ? await adminApi.updatePost(postId, body, token)
+        : await adminApi.createPost(body, token);
 
       // Keep the editor's content as typed (no remount); sync server-normalized metadata.
       const synced = { ...formFromPost(data), contentHtml: next.contentHtml };

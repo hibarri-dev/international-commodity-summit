@@ -2,17 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import PostContent from '../components/PostContent';
-import { BACKEND_URL } from '../lib/api';
-
-function setMetaDescription(content) {
-  let tag = document.querySelector('meta[name="description"]');
-  if (!tag) {
-    tag = document.createElement('meta');
-    tag.name = 'description';
-    document.head.appendChild(tag);
-  }
-  tag.content = content;
-}
+import { publicApi } from '../lib/api';
+import Seo from '../components/Seo';
 
 export default function PostDetail() {
   const { slug } = useParams();
@@ -22,10 +13,10 @@ export default function PostDetail() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`${BACKEND_URL}/api/summit/posts/${encodeURIComponent(slug)}`)
-      .then((res) => res.json())
+    publicApi
+      .getPost(slug)
       .then((res) => {
-        if (!cancelled) setResult({ slug, post: res.success ? res.data : null });
+        if (!cancelled) setResult({ slug, post: res.data });
       })
       .catch(() => {
         if (!cancelled) setResult({ slug, post: null });
@@ -37,8 +28,6 @@ export default function PostDetail() {
 
   useEffect(() => {
     if (!post) return;
-    document.title = `${post.title} | International Commodity Summit`;
-    if (post.excerpt) setMetaDescription(post.excerpt);
     window.scrollTo(0, 0);
   }, [post]);
 
@@ -57,6 +46,11 @@ export default function PostDetail() {
 
   return (
     <article className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 bg-white min-h-[70vh]">
+      <Seo
+        title={`${post.title} | International Commodity Summit`}
+        description={post.excerpt || undefined}
+        path={`/post/${post.slug}`}
+      />
       <div className="max-w-3xl mx-auto">
         <Link 
           to="/posts" 

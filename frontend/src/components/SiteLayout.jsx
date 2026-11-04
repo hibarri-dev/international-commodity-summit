@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import { useTrafficTracker } from '../hooks/useTrafficTracker';
 
 /** Public-site chrome: navbar + footer on every page, plus hash/scroll handling for in-app navigation. */
 export default function SiteLayout() {
   const { pathname, hash } = useLocation();
+  useTrafficTracker();
 
   useEffect(() => {
     if (!hash) {

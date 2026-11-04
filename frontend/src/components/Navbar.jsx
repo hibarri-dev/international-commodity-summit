@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Award } from 'lucide-react';
+import { Menu, X, Award, UserRound } from 'lucide-react';
+import { useAttendeeAuth } from '../context/AttendeeAuthContext';
 
 const SPONSOR_HREF = `mailto:vp@internationalcommoditysummit.com?subject=${encodeURIComponent('Sponsorship enquiry - International Commodity Summit')}`;
 
 const NAV_LINKS = [
-  { label: 'Overview', to: '/#about' },
   { label: 'Sectors', to: '/#industries' },
   { label: 'Speakers', to: '/speakers' },
   { label: '2025 Highlights', to: '/#brands-2025' },
@@ -16,6 +16,8 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
+  const { attendee } = useAttendeeAuth();
+  const account = attendee ? { to: '/account', label: 'My Account' } : { to: '/login', label: 'Login' };
   const [menuOpen, setMenuOpen] = useState(false);
   const { pathname, hash } = useLocation();
   const [menuLocation, setMenuLocation] = useState(pathname + hash);
@@ -77,6 +79,13 @@ export default function Navbar() {
             <Award className="w-3.5 h-3.5" />
             <span>Sponsor</span>
           </a>
+          <Link
+            to={account.to}
+            className="hidden sm:inline-flex text-xs uppercase tracking-wider font-bold px-3 py-2 rounded-lg bg-white text-[#005EFF] hover:bg-white/90 transition-all items-center gap-1.5"
+          >
+            <UserRound className="w-3.5 h-3.5" />
+            <span>{account.label}</span>
+          </Link>
           {/* Mobile hamburger button */}
           <button
             type="button"
@@ -114,6 +123,13 @@ export default function Navbar() {
             ))}
 
             <div className="pt-4 mt-2 border-t border-slate-200 flex flex-col gap-2.5">
+              <Link
+                to={account.to}
+                onClick={() => setMenuOpen(false)}
+                className="w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl font-heading font-bold text-[#005EFF] bg-white hover:bg-slate-50 border border-[#005EFF]/40 text-sm"
+              >
+                <UserRound className="w-4 h-4" /> {account.label}
+              </Link>
               <a
                 href={SPONSOR_HREF}
                 onClick={() => setMenuOpen(false)}

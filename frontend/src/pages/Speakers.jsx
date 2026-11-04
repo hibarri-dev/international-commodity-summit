@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Mic,
@@ -12,8 +12,17 @@ import {
   Filter,
   UserCheck,
 } from 'lucide-react';
-import { SPEAKERS, SPEAKER_CATEGORIES } from '../data/speakersData';
-import { useTrafficTracker } from '../hooks/useTrafficTracker';
+import { publicApi } from '../lib/api';
+import Seo from '../components/Seo';
+
+// lucide-react v1 dropped brand icons.
+function LinkedinIcon({ className }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z" />
+    </svg>
+  );
+}
 
 const SPEAKER_EMAIL = 'speakers@internationalcommoditysummit.com';
 const SPEAKER_MAILTO = `mailto:${SPEAKER_EMAIL}?subject=${encodeURIComponent(
@@ -21,28 +30,53 @@ const SPEAKER_MAILTO = `mailto:${SPEAKER_EMAIL}?subject=${encodeURIComponent(
 )}`;
 
 export default function Speakers() {
-  useTrafficTracker();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
+  const [speakers, setSpeakers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    publicApi
+      .getSpeakers()
+      .then((data) => {
+        if (!cancelled && Array.isArray(data.data)) setSpeakers(data.data);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const categories = useMemo(
+    () => ['All', ...[...new Set(speakers.map((s) => s.category).filter(Boolean))].sort()],
+    [speakers]
+  );
 
   const filteredSpeakers = useMemo(() => {
-    return SPEAKERS.filter((speaker) => {
-      const matchesCategory =
-        activeCategory === 'All' || speaker.category === activeCategory;
-      const query = searchTerm.toLowerCase().trim();
-      const matchesSearch =
-        !query ||
-        speaker.name.toLowerCase().includes(query) ||
-        speaker.company.toLowerCase().includes(query) ||
-        speaker.role.toLowerCase().includes(query) ||
-        speaker.slot.toLowerCase().includes(query) ||
-        speaker.category.toLowerCase().includes(query);
-      return matchesCategory && matchesSearch;
+    const query = searchTerm.toLowerCase().trim();
+    return speakers.filter((speaker) => {
+      const matchesCategory = activeCategory === 'All' || speaker.category === activeCategory;
+      const haystack = [speaker.name, speaker.company, speaker.jobTitle, speaker.sessionTitle, speaker.category]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      return matchesCategory && (!query || haystack.includes(query));
     });
-  }, [searchTerm, activeCategory]);
+  }, [speakers, searchTerm, activeCategory]);
+
+  const hasSpeakers = speakers.length > 0;
 
   return (
     <div className="bg-slate-50 min-h-screen text-slate-900">
+      <Seo
+        title="Speakers | International Commodity Summit 2027"
+        description="Meet the speakers and presenters at the International Commodity Summit 2027 in New York, or apply to speak."
+        path="/speakers"
+      />
       {/* Top Breadcrumb & Hero */}
       <section className="bg-gradient-to-b from-slate-950 via-slate-900 to-slate-900 text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-b border-white/10">
         <div className="max-w-6xl mx-auto">
@@ -70,10 +104,12 @@ export default function Speakers() {
 
             {/* Quick Action Badges */}
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 text-white/90 border border-white/15">
-                <UserCheck className="w-4 h-4 text-emerald-400" />
-                {SPEAKERS.length} Confirmed Faculty Members
-              </span>
+              {hasSpeakers && (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 text-white/90 border border-white/15">
+                  <UserCheck className="w-4 h-4 text-emerald-400" />
+                  {speakers.length} Confirmed Speakers
+                </span>
+              )}
               <a
                 href="#apply-to-speak"
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#005EFF] to-[#F40260] text-white font-semibold hover:opacity-95 transition-opacity"
@@ -87,6 +123,7 @@ export default function Speakers() {
       </section>
 
       {/* Filter and Search Bar */}
+      {hasSpeakers && (
       <section className="sticky top-16 sm:top-20 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 py-4 px-4 sm:px-6 lg:px-8 shadow-sm">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
           {/* Search Box */}
@@ -113,7 +150,7 @@ export default function Speakers() {
 
           {/* Results count */}
           <div className="text-xs sm:text-sm font-semibold text-slate-500 shrink-0 self-center md:self-auto">
-            Showing <span className="text-slate-900 font-bold">{filteredSpeakers.length}</span> of {SPEAKERS.length} speakers
+            Showing <span className="text-slate-900 font-bold">{filteredSpeakers.length}</span> of {speakers.length} speakers
           </div>
         </div>
 
@@ -122,7 +159,7 @@ export default function Speakers() {
           <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1 shrink-0 mr-1">
             <Filter className="w-3 h-3" /> Filter:
           </span>
-          {SPEAKER_CATEGORIES.map((cat) => {
+          {categories.map((cat) => {
             const isActive = activeCategory === cat;
             return (
               <button
@@ -141,11 +178,36 @@ export default function Speakers() {
           })}
         </div>
       </section>
+      )}
 
       {/* Main Speakers Grid (WordPress-inspired with attractive speaking slot cards) */}
       <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          {filteredSpeakers.length === 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8" aria-busy="true">
+              {[0, 1, 2, 3].map((i) => (
+                <div key={i} className="h-64 rounded-2xl bg-slate-200 animate-pulse" />
+              ))}
+            </div>
+          ) : !hasSpeakers ? (
+            <div className="text-center py-16 sm:py-20 bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+              <Mic className="w-12 h-12 text-[#005EFF] mx-auto mb-4" />
+              <h2 className="font-heading font-extrabold text-2xl sm:text-3xl text-slate-900">
+                2027 speakers announced soon
+              </h2>
+              <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-lg mx-auto">
+                Our 2027 faculty of ministers, C-suite executives and commodity experts is being confirmed now.
+                Want to share the stage?
+              </p>
+              <a
+                href="#apply-to-speak"
+                data-track="speakers-empty-apply"
+                className="mt-6 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-[#005EFF] to-[#F40260] hover:opacity-95 transition-opacity"
+              >
+                <Mic className="w-4 h-4" /> Apply to Speak
+              </a>
+            </div>
+          ) : filteredSpeakers.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
               <Mic className="w-12 h-12 text-slate-300 mx-auto mb-3" />
               <h3 className="font-heading font-bold text-xl text-slate-800">No speakers found</h3>
@@ -169,23 +231,25 @@ export default function Speakers() {
                 // Gradient styles matching WordPress original:
                 // Blue gradient: from rgb(0,106,255) to rgb(155,81,224)
                 // Pink gradient: from rgb(246,0,98) to rgb(155,81,224)
-                const isPink = speaker.gradient === 'pink' || (speaker.gradient !== 'blue' && index % 2 === 1);
+                const isPink = index % 2 === 1;
                 const bgGradientClass = isPink
                   ? 'bg-gradient-to-br from-[#F40260] via-[#D00070] to-[#7B2CBF]'
                   : 'bg-gradient-to-br from-[#005EFF] via-[#3B4CCA] to-[#7B2CBF]';
 
                 return (
                   <div
-                    key={speaker.id}
+                    key={speaker._id}
                     className={`rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col sm:flex-row text-white ${bgGradientClass} border border-white/20`}
                   >
                     {/* Content Section (Left on desktop) */}
                     <div className="flex-1 p-6 sm:p-7 flex flex-col justify-between order-2 sm:order-1">
                       <div>
                         {/* Speaker Category Pill */}
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/20 text-white backdrop-blur-xs mb-3">
-                          <span>{speaker.category}</span>
-                        </div>
+                        {speaker.category && (
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/20 text-white backdrop-blur-xs mb-3">
+                            <span>{speaker.category}</span>
+                          </div>
+                        )}
 
                         {/* Speaker Name */}
                         <h2 className="font-heading font-extrabold text-2xl sm:text-3xl text-white tracking-tight leading-tight">
@@ -196,7 +260,7 @@ export default function Speakers() {
                         <div className="mt-1.5 flex items-start gap-1.5 text-sm sm:text-base text-white/95 font-medium leading-snug">
                           <Building2 className="w-4 h-4 shrink-0 mt-1 text-white/70" />
                           <div>
-                            <span className="font-bold">{speaker.role}</span>
+                            <span className="font-bold">{speaker.jobTitle}</span>
                             {speaker.company && (
                               <span className="block text-xs sm:text-sm text-white/85 font-medium mt-0.5">
                                 {speaker.company}
@@ -204,9 +268,21 @@ export default function Speakers() {
                             )}
                           </div>
                         </div>
+                        {speaker.linkedinUrl && (
+                          <a
+                            href={speaker.linkedinUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            data-track={`speaker-linkedin:${speaker.slug}`}
+                            className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-white/90 hover:text-white underline underline-offset-2"
+                          >
+                            <LinkedinIcon className="w-3.5 h-3.5" /> LinkedIn
+                          </a>
+                        )}
                       </div>
 
                       {/* Attractive Card-Type Speaking Slot */}
+                      {speaker.sessionTitle && (
                       <div className="mt-6 bg-white/15 backdrop-blur-md rounded-xl p-4 border border-white/25 shadow-inner">
                         <div className="flex items-center justify-between gap-2 mb-2 pb-1.5 border-b border-white/15">
                           <div className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wider text-amber-300">
@@ -214,28 +290,29 @@ export default function Speakers() {
                             <span>Speaking Slot</span>
                           </div>
                           <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/20 text-white">
-                            {speaker.slotType || 'Session'}
+                            {speaker.sessionType || 'Session'}
                           </span>
                         </div>
 
                         {/* Topic Title */}
                         <p className="font-heading font-bold text-sm sm:text-base text-white leading-snug break-words">
-                          {speaker.slot}
+                          {speaker.sessionTitle}
                         </p>
 
                         <div className="mt-2.5 flex items-center gap-2 text-[11px] text-white/80 font-medium">
                           <span className="inline-flex items-center gap-1">
-                            <Calendar className="w-3 h-3 text-white/70" /> Plenary & Executive Track
+                            <Calendar className="w-3 h-3 text-white/70" /> {speaker.sessionDay || 'Plenary & Executive Track'}
                           </span>
                         </div>
                       </div>
+                      )}
                     </div>
 
                     {/* Speaker Image Section (Right on desktop) */}
                     <div className="sm:w-44 md:w-48 lg:w-44 xl:w-52 shrink-0 relative bg-black/20 order-1 sm:order-2 overflow-hidden flex items-center justify-center">
                       <div className="w-full h-56 sm:h-full relative min-h-[220px]">
                         <img
-                          src={speaker.image}
+                          src={speaker.photoUrl || '/logo/logo-icon-white.png'}
                           alt={speaker.name}
                           loading="lazy"
                           className="w-full h-full object-cover object-top sm:object-center transform hover:scale-105 transition-transform duration-500"

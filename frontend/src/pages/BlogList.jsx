@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Newspaper, Calendar, Clock, ArrowRight, ArrowLeft } from 'lucide-react';
-import { BACKEND_URL } from '../lib/api';
+import { publicApi } from '../lib/api';
+import Seo from '../components/Seo';
 
 function formatDate(value) {
   return new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
@@ -13,19 +14,20 @@ export default function BlogList() {
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    document.title = 'News & Insights | International Commodity Summit';
-    fetch(`${BACKEND_URL}/api/summit/posts`)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.success) setPosts(res.data);
-        else setFailed(true);
-      })
+    publicApi
+      .getPosts()
+      .then((res) => setPosts(res.data))
       .catch(() => setFailed(true))
       .finally(() => setLoading(false));
   }, []);
 
   return (
     <div className="py-10 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-white min-h-[70vh]">
+      <Seo
+        title="News & Insights | International Commodity Summit"
+        description="Market analysis, session insights, and official announcements from the International Commodity Summit."
+        path="/posts"
+      />
       <div className="max-w-6xl mx-auto">
         <Link 
           to="/" 
