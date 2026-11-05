@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, Calendar, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Coffee,
-  Flame, FlaskConical, Landmark, Layers, MapPin, Ship, Shirt, ShoppingBasket, Sparkles, Wheat, X,
+  Flame, FlaskConical, Landmark, Layers, MapPin, Ship, Shirt, ShoppingBasket, Sparkles, UserRound, Wheat, X,
 } from 'lucide-react';
 import galleryJson from '../data/gallery2025.json';
 import YouTubeEmbed from '../components/YouTubeEmbed';
@@ -18,6 +18,7 @@ import { publicApi } from '../lib/api';
 const EVENT = {
   dates: '15 - 17 November 2027',
   venue: 'Meadowlands Exhibition Center',
+  audience: 'C-Suite, Founders & Investors',
   location: 'New York, USA',
   sponsorEmail: 'vp@internationalcommoditysummit.com',
   registrationEmail: 'registration@internationalcommoditysummit.com',
@@ -442,7 +443,7 @@ function HeroSection() {
 
         <p className="mt-4 sm:mt-6 max-w-3xl mx-auto text-slate-600 text-base sm:text-xl leading-relaxed text-center">{HERO.intro}</p>
 
-        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-sm font-medium text-slate-700">
+        <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-2 sm:gap-x-6 sm:gap-y-2 text-sm font-medium text-slate-700">
           <span className="inline-flex items-center gap-2">
             <Calendar className="w-4 h-4 text-[#005EFF]" />
             {EVENT.dates}
@@ -450,6 +451,10 @@ function HeroSection() {
           <span className="inline-flex items-center gap-2">
             <MapPin className="w-4 h-4 text-[#F40260]" />
             {EVENT.venue}, {EVENT.location}
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <UserRound className="w-4 h-4 text-[#7C3AED]" />
+            {EVENT.audience}
           </span>
         </div>
 
