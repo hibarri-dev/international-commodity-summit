@@ -458,9 +458,9 @@ function HeroSection() {
           <a href="#agenda" className={primaryButton}>
             View the Agenda
           </a>
-          <a href={SPONSOR_HREF} className={secondaryButton}>
+          <Link to="/sponsor" className={secondaryButton}>
             Sponsor
-          </a>
+          </Link>
         </div>
 
         {/* Hero Photos: 1 on top, 2 below on mobile; 3 next to each other on desktop */}

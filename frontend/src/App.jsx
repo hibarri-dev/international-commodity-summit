@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import BlogList from './pages/BlogList';
 import PostDetail from './pages/PostDetail';
 import PageDetail from './pages/PageDetail';
+import Sponsor from './pages/Sponsor';
 import Speakers from './pages/Speakers';
 import Login from './pages/Login';
 import Join from './pages/Join';
@@ -23,6 +24,7 @@ export default function App() {
           <Route element={<SiteLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/speakers" element={<Speakers />} />
+            <Route path="/sponsor" element={<Sponsor />} />
             <Route path="/posts" element={<BlogList />} />
             <Route path="/post/:slug" element={<PostDetail />} />
             <Route path="/page/:slug" element={<PageDetail />} />

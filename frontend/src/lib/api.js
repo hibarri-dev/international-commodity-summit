@@ -60,6 +60,7 @@ export const publicApi = {
   startCheckout: (registrationId) =>
     request(`/api/summit/registrations/${encodeURIComponent(registrationId)}/checkout`, { method: 'POST' }),
   getCheckoutSession: (sessionId) => request(`/api/summit/checkout/session/${encodeURIComponent(sessionId)}`),
+  submitSponsorEnquiry: (payload) => request('/api/summit/sponsor-enquiry', { method: 'POST', body: payload }),
 
   /** Text/plain beacons avoid a CORS preflight, so they also survive page unload. */
   beacon(endpoint, payload, { unloading = false } = {}) {
