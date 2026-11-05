@@ -44,7 +44,15 @@ export default function PageDetail() {
     );
   }
 
-  const html = (page.content || []).map((block) => block.value || '').join('\n');
+  const html = (page.content || [])
+    .map((block) => {
+      if (block.type !== 'image') return block.value || '';
+      if (!/^https:\/\//i.test(block.value || '')) return '';
+      const src = block.value.replace(/"/g, '%22');
+      const alt = (page.title || '').replace(/[<>"&]/g, '');
+      return `<figure><img src="${src}" alt="${alt}" /></figure>`;
+    })
+    .join('\n');
 
   return (
     <div className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 bg-white min-h-[70vh]">
