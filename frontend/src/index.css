@@ -254,21 +254,3 @@ svg text[font-weight="900"] {
   border-radius: 0 0.75rem 0.75rem 0;
   padding: 0.25rem 1.25rem;
 }
-
-/* TipTap editor */
-.tiptap:focus {
-  outline: none;
-}
-
-.tiptap p.is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
-  color: #64748b;
-  float: left;
-  height: 0;
-  pointer-events: none;
-}
-
-.tiptap img.ProseMirror-selectednode {
-  outline: 3px solid #7a2fd6;
-  outline-offset: 2px;
-}

@@ -1,4 +1,8 @@
 {
+  "redirects": [
+    { "source": "/admin", "destination": "https://www.hibarri.com/admin/summit/posts", "permanent": false },
+    { "source": "/admin/(.*)", "destination": "https://www.hibarri.com/admin/summit/posts", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/sitemap.xml", "destination": "https://api.hibarri.com/summit/sitemap.xml" },
     { "source": "/(.*)", "destination": "/index.html" }

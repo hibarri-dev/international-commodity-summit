@@ -6,7 +6,6 @@ export const BACKEND_URL = (
   import.meta.env.VITE_BACKEND_URL || (import.meta.env.DEV ? LOCAL_BACKEND_URL : PRODUCTION_BACKEND_URL)
 ).replace(/\/+$/, '');
 
-export const ADMIN_TOKEN_KEY = 'ics_admin_token';
 export const ATTENDEE_TOKEN_KEY = 'ics_attendee_token';
 
 export class ApiError extends Error {
@@ -99,22 +98,5 @@ export const attendeeApi = {
   removeImage: (kind) => attendee(`/me/uploads/${kind}`, { method: 'DELETE' }),
 };
 
-/* ---------- Site admin (blog) ---------- */
-
-export const adminApi = {
-  login: (email, password) => request('/api/auth/login', { method: 'POST', body: { email, password } }),
-  logout: () => request('/api/auth/logout', { method: 'POST' }).catch(() => {}),
-
-  getOverview: (token) => request('/api/admin/summit/overview', { token }),
-  getTraffic: (token) => request('/api/admin/summit/traffic', { token }),
-  getPosts: (token) => request('/api/admin/summit/posts', { token }),
-  getPost: (id, token) => request(`/api/admin/summit/posts/${id}`, { token }),
-  createPost: (body, token) => request('/api/admin/summit/posts', { method: 'POST', body, token }),
-  updatePost: (id, body, token) => request(`/api/admin/summit/posts/${id}`, { method: 'PATCH', body, token }),
-  deletePost: (id, token) => request(`/api/admin/summit/posts/${id}`, { method: 'DELETE', token }),
-
-  async uploadImage(file, token) {
-    const { data } = await request('/api/admin/summit/uploads/image', { method: 'POST', body: imageForm(file), token });
-    return data.url;
-  },
-};
+/** Posts, traffic and all other Summit admin tools live in the Hibarri Superadmin. */
+export const SUPERADMIN_SUMMIT_URL = 'https://www.hibarri.com/admin/summit/posts';

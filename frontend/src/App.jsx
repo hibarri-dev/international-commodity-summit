@@ -13,7 +13,7 @@ import ForgotPassword from './pages/ForgotPassword';
 import SetPassword from './pages/SetPassword';
 import Account from './pages/Account';
 import PaymentResult from './pages/PaymentResult';
-import AdminDashboard from './pages/AdminDashboard';
+import AdminRedirect from './pages/AdminRedirect';
 import { AttendeeAuthProvider } from './context/AttendeeAuthContext';
 
 export default function App() {
@@ -37,7 +37,7 @@ export default function App() {
             <Route path="/payment/success" element={<PaymentResult mode="success" />} />
             <Route path="/payment/cancelled" element={<PaymentResult mode="cancelled" />} />
           </Route>
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/*" element={<AdminRedirect />} />
         </Routes>
       </AttendeeAuthProvider>
     </BrowserRouter>
