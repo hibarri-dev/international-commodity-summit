@@ -17,6 +17,7 @@ const FEATURED_ITEMS = [
   { item: 'Drinks Prelude', price: '$30,000', badge: 'Networking' },
   { item: 'Event App & Official Emails', price: '$20,000', badge: 'Digital Reach' },
   { item: 'Pens & Notebooks', price: '$20,000', badge: 'Branded' },
+  { item: 'Panel Discussions', price: '$15,000', badge: 'High Engagement' },
   { item: 'Coffee Station', price: '$15,000', badge: 'High Traffic' },
   { item: 'Breakaway Room', price: '$15,000', badge: 'Meeting Hub' },
   { item: 'Water Cups', price: '$10,000', badge: 'Accessible' },

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowRight, Calendar, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Coffee,
+  ArrowRight, Award, Calendar, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Coffee,
   Flame, FlaskConical, Landmark, Layers, MapPin, Ship, Shirt, ShoppingBasket, Sparkles, UserRound, Wheat, X,
 } from 'lucide-react';
 import galleryJson from '../data/gallery2025.json';
@@ -24,7 +24,7 @@ const EVENT = {
   registrationEmail: 'registration@internationalcommoditysummit.com',
 };
 
-const SPONSOR_HREF = `mailto:${EVENT.sponsorEmail}?subject=${encodeURIComponent('Sponsorship enquiry - International Commodity Summit')}`;
+const SPONSOR_HREF = '/sponsor';
 
 const HERO = {
   eyebrow: 'The Landmark Gathering',
@@ -575,6 +575,13 @@ function BrandsSection() {
             </div>
           ))}
         </dl>
+
+        <div className="mt-12 flex justify-center">
+          <Link to="/sponsor" className={primaryButton}>
+            <Award className="w-4 h-4 mr-1.5 text-amber-300" />
+            <span>Explore 2027 Sponsorship Opportunities</span>
+          </Link>
+        </div>
       </div>
     </section>
   );
