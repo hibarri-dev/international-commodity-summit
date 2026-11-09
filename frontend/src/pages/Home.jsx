@@ -221,8 +221,10 @@ const TICKETS = [
     name: 'All Access Pass',
     badge: 'Most Popular',
     price: '$1,970',
+    priceSubtitle: 'Per delegate • All 3 days inclusive • Geneva, Switzerland',
     features: [
       'Access to all 3 Summit days (Nov 15-17)',
+      'Access the 1-on-1 Matchmaking App',
       'Access to every sector session across all 3 days',
       'Full Expo floor entry & product demonstrations',
       'Lunch, coffee breaks & standard networking receptions',
@@ -236,8 +238,10 @@ const TICKETS = [
     name: 'VIP Executive Pass',
     badge: 'Executive Tier',
     price: '$2,970',
+    priceSubtitle: 'Per delegate • Fast-track & VIP Lounge • Geneva, Switzerland',
     features: [
       'Everything included in All Access Pass',
+      'Access the 1-on-1 Matchmaking App',
       'Dedicated Fast-Track VIP Registration & Concierge',
       'Exclusive access to the VIP Executive Lounge',
       'Invitation to the VIP Gala Evening (Nov 15)',
@@ -256,6 +260,7 @@ const TICKETS = [
     priceSubtitle: 'Accredited media & press only • Subject to editorial approval',
     features: [
       'Access to all 3 Summit days (Nov 15-17)',
+      'Access the 1-on-1 Matchmaking App',
       'Dedicated Media Workroom & Press Lounge access',
       'Accredited press briefings & executive interview room',
       'Daily embargoed press releases & keynote speech transcripts',
@@ -880,7 +885,7 @@ function TicketsSection({ tickets = TICKETS, onSelectTicket }) {
     <section id="tickets" className={`${sectionClass} bg-slate-50`}>
       <div className="max-w-7xl mx-auto">
         <SectionHeader
-          eyebrow="Official Conference Registration"
+          eyebrow="only 3,000 tickets available"
           title="Select Your Summit Pass"
         />
 
@@ -901,7 +906,7 @@ function TicketsSection({ tickets = TICKETS, onSelectTicket }) {
                 <div className="mt-4">
                   <span className="font-heading font-bold text-4xl sm:text-5xl text-slate-900 tracking-tight">{t.price}</span>
                   <span className="block mt-1 text-xs text-slate-500">
-                    {t.priceSubtitle || 'Per delegate • All 3 days inclusive • New York'}
+                    {t.priceSubtitle || 'Per delegate • All 3 days inclusive • Geneva, Switzerland'}
                   </span>
                 </div>
               </div>
@@ -1202,7 +1207,7 @@ export default function Home() {
   return (
     <>
       <Seo
-        title="International Commodity Summit 2027 | Meadowlands New York"
+        title="International Commodity Summit 2027 | Geneva, Switzerland"
         description="International Commodity Summit (ICS) - 15 to 17 November 2027 at Meadowlands Exhibition Center, New York. Bringing together global commodity traders, finance, energy, and agriculture."
         path="/"
       />
