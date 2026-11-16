@@ -109,10 +109,10 @@ export default function Navbar() {
             <span>Sponsor</span>
           </Link>
 
-          {/* Attendee Login — icon-only on phones; label from sm so "My Account" never crowds the logo */}
+          {/* Attendee Login — icon-only square on phones; label from sm */}
           <Link
             to={account.to}
-            className="inline-flex text-xs uppercase tracking-wider font-bold p-2 sm:px-4 sm:py-2.5 rounded-xl bg-white text-[#005EFF] hover:bg-white/95 shadow-sm transition-all items-center gap-1.5 active:scale-95 min-h-[40px] min-w-[40px] sm:min-h-[44px]"
+            className="inline-flex items-center justify-center text-xs uppercase tracking-wider font-bold size-10 sm:size-auto sm:px-4 sm:py-2.5 sm:min-h-[44px] rounded-xl bg-white text-[#005EFF] hover:bg-white/95 shadow-sm transition-all gap-1.5 active:scale-95"
             aria-label={account.label}
           >
             <UserRound className="w-4 h-4 shrink-0" />
