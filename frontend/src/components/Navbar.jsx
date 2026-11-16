@@ -77,29 +77,29 @@ export default function Navbar() {
       : pathname === '/' && hash === to.slice(1);
 
   return (
-    <header className="sticky top-0 z-40 bg-gradient-to-r from-[#005EFF] to-[#F40260] text-white shadow-lg shadow-[#005EFF]/15 border-b border-white/20 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
-        
-        {/* Summit Logo */}
+    <header className="sticky top-0 z-40 overflow-x-clip bg-gradient-to-r from-[#005EFF] to-[#F40260] text-white shadow-lg shadow-[#005EFF]/15 border-b border-white/20 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 md:h-20 flex items-center justify-between gap-2 sm:gap-4">
+
+        {/* Summit Logo — full lockup; max-h + max-w keep it inside the bar on 320–375px */}
         <Link
           to="/"
-          className="flex items-center shrink-0 min-w-0 transition-transform hover:scale-[1.01]"
+          className="flex items-center min-w-0 transition-transform hover:scale-[1.01]"
           aria-label="International Commodity Summit 2027 - Home"
         >
           <img
             src="/logo/logo-full-white.png"
             alt="International Commodity Summit 2027"
-            className="h-9 min-[380px]:h-10 sm:h-12 w-auto object-contain"
+            className="block w-auto max-w-full max-h-8 sm:max-h-10 md:max-h-12 object-contain object-left"
           />
         </Link>
 
-        {/* Right Action Bar (Simplified - navigation items accessed via ┆ dots) */}
-        <div className="flex items-center gap-2.5 sm:gap-3.5 relative">
-          
-          {/* Sponsor CTA Button */}
+        {/* Right Action Bar — Sponsor stays in the drawer below md */}
+        <div className="flex items-center gap-1.5 sm:gap-3 relative shrink-0">
+
+          {/* Sponsor CTA — tablet/desktop only (also in mobile drawer) */}
           <Link
             to="/sponsor"
-            className={`inline-flex text-xs uppercase tracking-wider font-bold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition-all items-center gap-1.5 shadow-xs ${
+            className={`hidden md:inline-flex text-xs uppercase tracking-wider font-bold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl transition-all items-center gap-1.5 shadow-xs ${
               pathname === '/sponsor'
                 ? 'bg-white text-[#F40260] shadow-md font-extrabold ring-2 ring-white/60'
                 : 'text-white bg-white/15 hover:bg-white/25 border border-white/25 active:scale-95'
@@ -109,16 +109,17 @@ export default function Navbar() {
             <span>Sponsor</span>
           </Link>
 
-          {/* Attendee Portal / Account Button */}
+          {/* Attendee Login — icon-only on phones; label from sm so "My Account" never crowds the logo */}
           <Link
             to={account.to}
-            className="inline-flex text-xs uppercase tracking-wider font-bold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-white text-[#005EFF] hover:bg-white/95 shadow-sm transition-all items-center gap-1.5 active:scale-95"
+            className="inline-flex text-xs uppercase tracking-wider font-bold p-2 sm:px-4 sm:py-2.5 rounded-xl bg-white text-[#005EFF] hover:bg-white/95 shadow-sm transition-all items-center gap-1.5 active:scale-95 min-h-[40px] min-w-[40px] sm:min-h-[44px]"
+            aria-label={account.label}
           >
-            <UserRound className="w-3.5 h-3.5 shrink-0" />
-            <span>{account.label}</span>
+            <UserRound className="w-4 h-4 shrink-0" />
+            <span className="hidden sm:inline">{account.label}</span>
           </Link>
 
-          {/* ┆ Dots Menu Button (Simplified computer navigation & mobile menu) */}
+          {/* Menu button — opens drawer on mobile, dropdown on lg+ */}
           <button
             ref={buttonRef}
             type="button"
